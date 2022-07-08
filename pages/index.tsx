@@ -1,19 +1,18 @@
 import type { NextPage } from 'next';
 import type { FormEvent, ChangeEvent } from 'react';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import SearchInput from '../components/SearchInput';
+import type { Subscriber } from '../types';
 
 const Home: NextPage = () => {
   const [searchTerm, setSearchTerm] = useState('');
+  const [subscribers, setSubscrbiers] = useState<Subscriber[]>([]);
 
-  const tempSubscribers = [
-    { key: '1', name: 'Lindsay Walton', title: 'Front-end Developer', email: 'lindsay.walton@example.com', role: 'Member' },
-    { key: '2', name: 'Courtney Henry', title: 'Designer', email: 'courtney.henry@example.com', role: 'Admin' },
-    { key: '3', name: 'Tom Cook', title: 'Director, Product Development', email: 'tom.cook@example.com', role: 'Member' },
-    { key: '4', name: 'Whitney Francis', title: 'Copywriter', email: 'whitney.francis@example.com', role: 'Admin' },
-    { key: '5', name: 'Leonard Krasner', title: 'Senior Designer', email: 'leonard.krasner@example.com', role: 'Owner' },
-    { key: '6', name: 'Floyd Miles', title: 'Principal Designer', email: 'floyd.miles@example.com', role: 'Member' },
-  ];
+  useEffect(() => {
+    fetch('/api/subscribers')
+      .then(response => response.json())
+      .then(subscribers => setSubscrbiers(subscribers));
+  }, []);
 
   function handleChange(e: ChangeEvent<HTMLInputElement>) {
     setSearchTerm(e.target.value);
@@ -28,6 +27,20 @@ const Home: NextPage = () => {
   function handleReset(e: FormEvent) {
     e.preventDefault();
     setSearchTerm('');
+  }
+
+  function renderTableResults() {
+    return (
+      subscribers.map(subscriber => (
+        <tr key={subscriber.key} className="border-b border-slate-200 hover:bg-slate-50">
+          <td className="p-4">{subscriber.name}</td>
+          <td>{subscriber.title}</td>
+          <td>{subscriber.email}</td>
+          <td>{subscriber.role}</td>
+          <td>Edit</td>
+        </tr>
+      ))
+    )
   }
 
   return (
@@ -55,15 +68,7 @@ const Home: NextPage = () => {
             </tr>
           </thead>
           <tbody>
-            {tempSubscribers.map(user => (
-              <tr key={user.key} className="border-b border-slate-200 hover:bg-slate-50">
-                <td className="p-4">{user.name}</td>
-                <td>{user.title}</td>
-                <td>{user.email}</td>
-                <td>{user.role}</td>
-                <td>Edit</td>
-              </tr>
-            ))}
+            {renderTableResults()}
           </tbody>
         </table>
 
