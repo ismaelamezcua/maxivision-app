@@ -31,42 +31,44 @@ const Home: NextPage = () => {
   }
 
   return (
-    <div className="container mx-auto">
-      <div className="flex flex-row justify-between p-4">
-        <h1 className="text-3xl text-slate-800">Suscriptores</h1>
+    <>
+      <div className="container mx-auto p-6 mt-8 bg-white rounded-lg">
+        <div className="flex flex-row justify-between p-4">
+          <h1 className="text-2xl font-semibold text-slate-800">Suscriptores</h1>
 
-        <div className="max-w-lg w-full">
-          <SearchInput searchTerm={searchTerm} handleSubmit={handleSubmit} handleReset={handleReset} handleChange={handleChange} />
+          <div className="max-w-lg w-full">
+            <SearchInput searchTerm={searchTerm} handleSubmit={handleSubmit} handleReset={handleReset} handleChange={handleChange} />
+          </div>
+          <div className="bg-sky-700 rounded-lg px-4 py-3 text-white">
+            Agregar suscriptor
+          </div>
+
         </div>
-        <div className="bg-indigo-700 rounded-lg px-4 py-3 text-white">
-          Agregar suscriptor
-        </div>
+        <table className="table-auto w-full">
+          <thead>
+            <tr className="text-left border-b border-slate-100">
+              <th className="p-4">Name</th>
+              <th>Title</th>
+              <th>Email</th>
+              <th>Role</th>
+              <th></th>
+            </tr>
+          </thead>
+          <tbody>
+            {tempSubscribers.map(user => (
+              <tr key={user.key} className="border-b border-slate-200 hover:bg-slate-50">
+                <td className="p-4">{user.name}</td>
+                <td>{user.title}</td>
+                <td>{user.email}</td>
+                <td>{user.role}</td>
+                <td>Edit</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
 
       </div>
-      <table className="table-auto w-full">
-        <thead>
-          <tr className="text-left border-b border-slate-100">
-            <th className="p-4">Name</th>
-            <th>Title</th>
-            <th>Email</th>
-            <th>Role</th>
-            <th></th>
-          </tr>
-        </thead>
-        <tbody>
-          {tempSubscribers.map(user => (
-            <tr key={user.key} className="border-b border-slate-200 hover:bg-slate-50">
-              <td className="p-4">{user.name}</td>
-              <td>{user.title}</td>
-              <td>{user.email}</td>
-              <td>{user.role}</td>
-              <td>Edit</td>
-            </tr>
-          ))}
-        </tbody>
-      </table>
-
-    </div>
+    </>
   );
 }
 

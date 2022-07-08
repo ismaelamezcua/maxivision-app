@@ -15,7 +15,7 @@ const Navbar: FC = (): ReactElement => {
   ];
 
   return (
-    <div className="w-full bg-blue-100 border-b border-blue-200">
+    <div className="w-full bg-white">
       <div className="container mx-auto">
         <div className="flex flex-row justify-between items-end">
           <img
@@ -27,7 +27,7 @@ const Navbar: FC = (): ReactElement => {
             {menuEntries.map(({ key, label, href, icon }) => (
               <Link key={key} href={href}>
                 <a>
-                  <div className={`text-blue-900 w-full p-2 rounded-t-lg inline-flex ${(router.asPath === href) ? 'bg-blue-200' : 'hover:bg-blue-200'} `}>
+                  <div className={`w-full p-2 inline-flex ${(router.asPath === href) ? 'border-b-2 border-blue-400 font-semibold' : 'hover:border-b-2'} `}>
                     {icon}
                     <span className="ml-1">{label}</span>
                   </div>
