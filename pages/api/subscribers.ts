@@ -1,5 +1,5 @@
 import type { NextApiRequest, NextApiResponse } from "next";
-import type { Subscriber } from '../../types/subscriber';
+import type { Subscriber } from '../../types';
 
 const responseData: Subscriber[] = [
   { key: '1', name: 'Lindsay Walton', title: 'Front-end Developer', email: 'lindsay.walton@example.com', role: 'Member' },
@@ -15,7 +15,8 @@ export default (req: NextApiRequest, res: NextApiResponse) => {
     setTimeout(() => {
       res.status(200).json(responseData);
     }, 1000)
-  } else {
-    res.status(200).json({ data: 'No Data' });
+  } else if (req.method === 'POST') {
+    console.log(req.body)
+    res.status(200).json(responseData);
   }
 };

@@ -6,13 +6,13 @@ import type { Subscriber } from '../types';
 
 const Home: NextPage = () => {
   const [searchTerm, setSearchTerm] = useState('');
-  const [subscribers, setSubscrbiers] = useState<Subscriber[]>([]);
+  const [subscribers, setSubscribers] = useState<Subscriber[]>([]);
 
-  useEffect(() => {
-    fetch('/api/subscribers')
-      .then(response => response.json())
-      .then(subscribers => setSubscrbiers(subscribers));
-  }, []);
+  // useEffect(() => {
+  //   fetch('/api/subscribers')
+  //     .then(response => response.json())
+  //     .then(subscribers => setSubscrbiers(subscribers));
+  // }, []);
 
   function handleChange(e: ChangeEvent<HTMLInputElement>) {
     setSearchTerm(e.target.value);
@@ -20,8 +20,17 @@ const Home: NextPage = () => {
 
   function handleSubmit(e: FormEvent) {
     e.preventDefault();
-    // TODO: Do request to search for the subscriber
-    console.log(searchTerm);
+    if (!searchTerm) return;
+
+    fetch('/api/subscribers', {
+      method: 'POST',
+      body: JSON.stringify({ searchTerm }),
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    })
+      .then(res => res.json())
+      .then(subs => setSubscribers(subs));
   }
 
   function handleReset(e: FormEvent) {
@@ -29,17 +38,39 @@ const Home: NextPage = () => {
     setSearchTerm('');
   }
 
+  const cleanTableResults = () => {
+    setSearchTerm('');
+    setSubscribers([]);
+  }
+
   function renderTableResults() {
+    if (subscribers.length === 0) {
+      return (<h1 className="font-bold text-2xl">Use the search box to display data.</h1>)
+    }
+
     return (
-      subscribers.map(subscriber => (
-        <tr key={subscriber.key} className="border-b border-slate-200 hover:bg-slate-50">
-          <td className="p-4">{subscriber.name}</td>
-          <td>{subscriber.title}</td>
-          <td>{subscriber.email}</td>
-          <td>{subscriber.role}</td>
-          <td>Edit</td>
-        </tr>
-      ))
+      <table className="table-auto w-full">
+        <thead>
+          <tr className="text-left border-b border-slate-100">
+            <th className="p-4">Name</th>
+            <th>Title</th>
+            <th>Email</th>
+            <th>Role</th>
+            <th></th>
+          </tr>
+        </thead>
+        <tbody>
+          {subscribers.map(subscriber => (
+            <tr key={subscriber.key} className="border-b border-slate-200 hover:bg-slate-50">
+              <td className="p-4">{subscriber.name}</td>
+              <td>{subscriber.title}</td>
+              <td>{subscriber.email}</td>
+              <td>{subscriber.role}</td>
+              <td>Edit</td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
     )
   }
 
@@ -57,21 +88,13 @@ const Home: NextPage = () => {
           </div>
 
         </div>
-        <table className="table-auto w-full">
-          <thead>
-            <tr className="text-left border-b border-slate-100">
-              <th className="p-4">Name</th>
-              <th>Title</th>
-              <th>Email</th>
-              <th>Role</th>
-              <th></th>
-            </tr>
-          </thead>
-          <tbody>
-            {renderTableResults()}
-          </tbody>
-        </table>
+        {renderTableResults()}
 
+        <div className={`${subscribers.length === 0 ? 'hidden' : 'block'} flex flex-row-reverse p-4`}>
+          <div className="bg-sky-700 rounded-lg px-4 py-3 text-white cursor-pointer" onClick={cleanTableResults}>
+            Borrar resultados
+          </div>
+        </div>
       </div>
     </>
   );
