@@ -3,6 +3,7 @@ import type { FormEvent, ChangeEvent } from 'react';
 import { useState, useEffect } from 'react';
 import SearchInput from '../components/SearchInput';
 import type { Subscriber } from '../types';
+import { Transition } from '@headlessui/react';
 
 const Home: NextPage = () => {
   const [searchTerm, setSearchTerm] = useState('');
@@ -88,13 +89,24 @@ const Home: NextPage = () => {
           </div>
 
         </div>
-        {renderTableResults()}
 
-        <div className={`${subscribers.length === 0 ? 'hidden' : 'block'} flex flex-row-reverse p-4`}>
-          <div className="bg-sky-700 rounded-lg px-4 py-3 text-white cursor-pointer" onClick={cleanTableResults}>
-            Borrar resultados
+        <Transition
+          show={searchTerm.length > 0 && subscribers.length > 0}
+          enter="transition-opacity ease-linear duration-300"
+          enterFrom="opacity-0"
+          enterTo="opacity-100"
+          leave="transition-opacity ease-linear duration-300"
+          leaveFrom="opacity-100"
+          leaveTo="opacity-0"
+        >
+          {renderTableResults()}
+          
+          <div className="flex flex-row-reverse p-4">
+            <div className="bg-sky-700 rounded-lg px-4 py-3 text-white cursor-pointer" onClick={cleanTableResults}>
+              Borrar resultados
+            </div>
           </div>
-        </div>
+        </Transition>
       </div>
     </>
   );
