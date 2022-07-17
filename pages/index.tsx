@@ -61,12 +61,12 @@ const Home: NextPage = () => {
           </tr>
         </thead>
         <tbody>
-          {subscribers.map(subscriber => (
-            <tr key={subscriber.key} className="border-b border-slate-200 hover:bg-slate-50">
-              <td className="p-4">{subscriber.name}</td>
-              <td>{subscriber.title}</td>
-              <td>{subscriber.email}</td>
-              <td>{subscriber.role}</td>
+          {subscribers.map(({ name, title, email, role }, index) => (
+            <tr key={index} className="border-b border-slate-200 hover:bg-slate-50">
+              <td className="p-4">{name}</td>
+              <td>{title}</td>
+              <td>{email}</td>
+              <td>{role}</td>
               <td>Edit</td>
             </tr>
           ))}
@@ -100,7 +100,7 @@ const Home: NextPage = () => {
           leaveTo="opacity-0"
         >
           {renderTableResults()}
-          
+
           <div className="flex flex-row-reverse p-4">
             <div className="bg-sky-700 rounded-lg px-4 py-3 text-white cursor-pointer" onClick={cleanTableResults}>
               Borrar resultados
