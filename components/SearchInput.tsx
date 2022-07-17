@@ -31,7 +31,7 @@ const SearchInput: FC<SearchInputProps> = ({ searchTerm, handleSubmit, handleRes
       <input
         type="text"
         className="w-full rounded-lg border-gray-400 focus:border-blue-900 hover:bg-gray-50 px-12 py-3"
-        placeholder="Buscar suscriptor"
+        placeholder="Busca por nombre o direcci&oacute;n"
         value={searchTerm}
         onChange={handleChange}
       />
