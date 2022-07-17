@@ -33,7 +33,7 @@ const Contratos: NextPage = (): ReactElement => {
         <div className="flex flex-col space-y-6">
 
           <div className="flex flex-row justify-between items-center">
-            <h1 className="text-3xl text-slate-800">Contratos</h1>
+            <h1 className="text-3xl font-bold text-blue-600">Contratos</h1>
             <div className="bg-blue-600 hover:bg-blue-700 px-4 py-3 text-white inline-flex items-center">
               <PlusIcon className="w-5 h-5" />
               <span className="ml-2">Nuevo contrato</span>
