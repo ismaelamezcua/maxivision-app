@@ -2,6 +2,7 @@ import type { FC, ReactElement } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { ClipboardListIcon, CreditCardIcon, ExclamationIcon, PencilAltIcon, UsersIcon } from '@heroicons/react/outline';
+import ContextualMenu from './ContextualMenu';
 
 const Navbar: FC = (): ReactElement => {
   const router = useRouter();
@@ -46,7 +47,7 @@ const Navbar: FC = (): ReactElement => {
 
   return (
     <div className="w-full bg-white">
-      <div className="container mx-auto">
+      <div className="container mx-auto max-w-6xl">
         <div className="flex flex-row justify-between items-end">
           <img
             className="max-h-24 p-4"
@@ -57,7 +58,7 @@ const Navbar: FC = (): ReactElement => {
             {menuEntries.map(({ key, label, href, description, icon }) => (
               <Link key={key} href={href}>
                 <a>
-                  <div className={`w-full p-2 inline-flex ${(router.asPath === href) ? 'border-b-2 border-blue-400 font-semibold' : 'hover:border-b-2'} `}>
+                  <div className={`w-full p-2 inline-flex ${(router.asPath === href) ? 'border-b-2 border-blue-600 font-semibold' : 'hover:border-b-2'} `}>
                     {icon}
                     <span className="ml-1" title={description}>{label}</span>
                   </div>
@@ -66,7 +67,9 @@ const Navbar: FC = (): ReactElement => {
             ))}
           </div>
         </div>
+
       </div>
+
     </div>
   );
 }
