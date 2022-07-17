@@ -1,9 +1,11 @@
 import type { NextPage } from 'next';
+import Head from 'next/head';
 import type { FormEvent, ChangeEvent } from 'react';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, Fragment } from 'react';
 import SearchInput from '../components/SearchInput';
 import type { Subscriber } from '../types';
-import { Transition } from '@headlessui/react';
+import { Dialog, Transition } from '@headlessui/react';
+import { UserAddIcon } from '@heroicons/react/outline';
 
 const Home: NextPage = () => {
   const [searchTerm, setSearchTerm] = useState('');
@@ -40,14 +42,14 @@ const Home: NextPage = () => {
   }
 
   const cleanTableResults = () => {
-    setSearchTerm('');
     setSubscribers([]);
+    setSearchTerm('');
   }
 
   function renderTableResults() {
-    if (subscribers.length === 0) {
-      return (<h1 className="font-bold text-2xl">Use the search box to display data.</h1>)
-    }
+    // if (subscribers.length === 0) {
+    //   return (<h1 className="font-bold text-2xl">Use the search box to display data.</h1>)
+    // }
 
     return (
       <table className="table-auto w-full">
@@ -77,6 +79,9 @@ const Home: NextPage = () => {
 
   return (
     <>
+      <Head>
+        <title>Maxivision - Suscriptores</title>
+      </Head>
       <div className="container mx-auto p-6 mt-8 bg-white rounded-lg">
         <div className="flex flex-row justify-between p-4">
           <h1 className="text-2xl font-semibold text-slate-800">Suscriptores</h1>
@@ -84,8 +89,10 @@ const Home: NextPage = () => {
           <div className="max-w-lg w-full">
             <SearchInput searchTerm={searchTerm} handleSubmit={handleSubmit} handleReset={handleReset} handleChange={handleChange} />
           </div>
-          <div className="bg-sky-700 rounded-lg px-4 py-3 text-white">
-            Agregar suscriptor
+
+          <div className="bg-sky-700 rounded-lg px-4 py-3 text-white flex flex-inline items-center">
+            <UserAddIcon className="w-5 h-5" />
+            <span className="ml-2">Agregar suscriptor</span>
           </div>
 
         </div>
@@ -100,7 +107,7 @@ const Home: NextPage = () => {
           leaveTo="opacity-0"
         >
           {renderTableResults()}
-          
+
           <div className="flex flex-row-reverse p-4">
             <div className="bg-sky-700 rounded-lg px-4 py-3 text-white cursor-pointer" onClick={cleanTableResults}>
               Borrar resultados
