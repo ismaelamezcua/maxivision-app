@@ -11,11 +11,11 @@ const responseData: Subscriber[] = [
 ];
 
 export default (req: NextApiRequest, res: NextApiResponse<Subscriber[] | ResponseError>) => {
-  if (req.method === 'GET') {
+  if (req.method === 'POST') {
     setTimeout(() => {
       res.status(200).json(responseData);
-    }, 1000)
-  } else if (req.method === 'POST') {
+    }, 4000)
+  } else if (req.method === 'GET') {
     console.log(req.body)
     res.status(200).json(responseData);
   }
