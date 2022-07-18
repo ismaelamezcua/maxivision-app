@@ -8,35 +8,30 @@ const Navbar: FC = (): ReactElement => {
 
   const menuEntries = [
     {
-      key: 'subscribers',
       label: 'Suscriptores',
       href: '/suscriptores',
       description: 'Busca y agrega suscriptores',
       icon: <UsersIcon className="w-6 h-6" />
     },
     {
-      key: 'contracts',
       label: 'Contratos',
       href: '/contratos',
       description: 'Muestra detalles de contratos',
       icon: <PencilAltIcon className="w-6 h-6" />
     },
     {
-      key: 'transactions',
       label: 'Movimientos',
       href: '/movimientos',
       description: 'Realiza pagos',
       icon: <CreditCardIcon className="w-6 h-6" />
     },
     {
-      key: 'reports',
       label: 'Reportes',
       href: '/reportes-servicio',
       description: 'Muestra reportes de servicios',
       icon: <ExclamationIcon className="w-6 h-6" />
     },
     {
-      key: 'sales',
       label: 'Reporte de movimientos',
       href: '/reporte-movimientos',
       description: 'Muestra reportes de movimientos por dia',
@@ -54,8 +49,8 @@ const Navbar: FC = (): ReactElement => {
             alt="Maxivision"
           />
           <div className="flex flewx-row space-x-4">
-            {menuEntries.map(({ key, label, href, description, icon }) => (
-              <Link key={key} href={href}>
+            {menuEntries.map(({ label, href, description, icon }, index) => (
+              <Link key={index} href={href}>
                 <a>
                   <div className={`w-full p-2 inline-flex ${(router.asPath === href) ? 'border-b-2 border-blue-600 font-semibold' : 'hover:border-b-2'} `}>
                     {icon}
