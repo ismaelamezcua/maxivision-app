@@ -1,5 +1,6 @@
 import type { NextApiRequest, NextApiResponse } from "next";
 import type { Subscriber, ResponseError } from '../../types';
+import prisma from '../../lib/prisma';
 
 const responseData: Subscriber[] = [
   { name: 'Lindsay Walton', title: 'Front-end Developer', email: 'lindsay.walton@example.com', role: 'Member' },
@@ -10,15 +11,28 @@ const responseData: Subscriber[] = [
   { name: 'Floyd Miles', title: 'Principal Designer', email: 'floyd.miles@example.com', role: 'Member' },
 ];
 
-const subscriberApi = (req: NextApiRequest, res: NextApiResponse<Subscriber[] | ResponseError>) => {
+// export default async function handle(req: NextApiRequest, res: NextApiResponse<Subscriber[] | ResponseError>) => {
+//   const { searchString } = req.query;
+
+//   const results = await prisma.subscriber.findMany({
+//     where: {
+//       name: {
+//         contains: searchString,
+//       },
+//     },
+//   });
+
+//   res.json(results);
+// }
+
+const subscriberApiHandler = async (req: NextApiRequest, res: NextApiResponse<Subscriber[] | ResponseError>) => {
   if (req.method === 'POST') {
     setTimeout(() => {
       res.status(200).json(responseData);
     }, 4000)
   } else if (req.method === 'GET') {
-    console.log(req.body)
     res.status(200).json(responseData);
   }
 };
 
-export default subscriberApi;
+export default subscriberApiHandler;
