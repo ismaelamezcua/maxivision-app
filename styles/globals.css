@@ -10,3 +10,16 @@
 body {
   @apply bg-gray-100;
 }
+
+@layer components {
+  .form-field {
+    @apply flex flex-col max-w-xl mx-auto space-y-1;
+  }
+  .form-label {
+    @apply font-semibold text-gray-800;
+  }
+
+  .form-input {
+    @apply w-full border-gray-400 focus:border-blue-700 px-4 py-3;
+  }
+}

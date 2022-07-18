@@ -1,5 +1,6 @@
 import { NextPage } from 'next';
 import Head from 'next/head';
+import Link from 'next/link';
 
 import {
   useState,
@@ -114,10 +115,15 @@ const Suscriptores: NextPage = () => {
 
           <div className="flex flex-row justify-between items-center">
             <h1 className="text-3xl font-bold text-blue-600">Suscriptores</h1>
-            <div className="bg-blue-600 hover:bg-blue-700 px-4 py-3 text-white inline-flex items-center">
-              <UserAddIcon className="w-5 h-5" />
-              <span className="ml-2">Agregar suscriptor</span>
-            </div>
+
+            <Link href="/suscriptores/nuevo">
+              <a>
+                <div className="bg-blue-600 hover:bg-blue-700 px-4 py-3 text-white inline-flex items-center">
+                  <UserAddIcon className="w-5 h-5" />
+                  <span className="ml-2">Agregar suscriptor</span>
+                </div>
+              </a>
+            </Link>
           </div>
 
           <div className="bg-white p-6">
