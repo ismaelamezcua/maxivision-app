@@ -2,7 +2,6 @@ import type { FC, ReactElement } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { ClipboardListIcon, CreditCardIcon, ExclamationIcon, PencilAltIcon, UsersIcon } from '@heroicons/react/outline';
-import ContextualMenu from './ContextualMenu';
 
 const Navbar: FC = (): ReactElement => {
   const router = useRouter();
@@ -11,7 +10,7 @@ const Navbar: FC = (): ReactElement => {
     {
       key: 'subscribers',
       label: 'Suscriptores',
-      href: '/',
+      href: '/suscriptores',
       description: 'Busca y agrega suscriptores',
       icon: <UsersIcon className="w-6 h-6" />
     },
