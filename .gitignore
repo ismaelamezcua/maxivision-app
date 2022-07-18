@@ -33,3 +33,9 @@ yarn-error.log*
 
 # typescript
 *.tsbuildinfo
+
+yarn-error.log/
+yarn.lock
+databases/**/migrations/
+experimental/**/*.db
+*.db
