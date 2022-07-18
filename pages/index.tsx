@@ -9,7 +9,7 @@ import AppearTransition from '../components/AppearTransition';
 import Spinner from '../components/Spinner';
 
 const Home: NextPage = () => {
-  const [searchTerm, setSearchTerm] = useState('');
+  const [searchTerm, setSearchTerm] = useState<string>('');
   const [isFetching, setIsFetching] = useState<boolean>(false);
   const [subscribers, setSubscribers] = useState<Subscriber[]>([]);
 
