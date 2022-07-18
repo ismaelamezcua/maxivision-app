@@ -10,7 +10,7 @@ const responseData: Subscriber[] = [
   { name: 'Floyd Miles', title: 'Principal Designer', email: 'floyd.miles@example.com', role: 'Member' },
 ];
 
-export default (req: NextApiRequest, res: NextApiResponse<Subscriber[] | ResponseError>) => {
+const subscriberApi = (req: NextApiRequest, res: NextApiResponse<Subscriber[] | ResponseError>) => {
   if (req.method === 'POST') {
     setTimeout(() => {
       res.status(200).json(responseData);
@@ -20,3 +20,5 @@ export default (req: NextApiRequest, res: NextApiResponse<Subscriber[] | Respons
     res.status(200).json(responseData);
   }
 };
+
+export default subscriberApi;
