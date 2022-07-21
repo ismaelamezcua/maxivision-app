@@ -43,15 +43,22 @@ const NewSubscriberModal: FC<SubscriberModalProps> = ({ isModalOpen, closeModal 
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    console.log(subscriberInfo);
+    /* POST request for subscriber creation */
+    const requestOptions = {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json;charset=UTF-8',
+      },
+      body: JSON.stringify(subscriberInfo),
+    };
+
     setIsFetching(true);
-
-    setTimeout(() => {
-      setIsFetching(false)
-      /* Subscriber created in the backend */
-      setSubscriberInfo(initialState);
-    }, 3000);
-
+    fetch('/api/subscribers', requestOptions)
+      .then(response => response.json())
+      .then(data => {
+        setIsFetching(false);
+        console.log(data)
+      });
   };
 
   return (

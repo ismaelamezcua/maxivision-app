@@ -47,6 +47,7 @@ const Suscriptores: NextPage = () => {
     if (!searchTerm) return;
 
     setIsFetching(true);
+    let searchUri = `/api/search?query=${searchTerm}`;
 
     fetch('/api/subscribers', {
       method: 'POST',

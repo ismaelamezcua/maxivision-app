@@ -39,3 +39,4 @@ yarn.lock
 databases/**/migrations/
 experimental/**/*.db
 *.db
+.prisma

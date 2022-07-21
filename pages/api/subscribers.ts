@@ -26,11 +26,15 @@ const responseData: Subscriber[] = [
 // }
 
 const subscriberApiHandler = async (req: NextApiRequest, res: NextApiResponse<Subscriber[] | ResponseError>) => {
+  const { searchTerm } = req.body;
+
   if (req.method === 'POST') {
+    console.log({ searchTerm })
     setTimeout(() => {
       res.status(200).json(responseData);
     }, 4000)
   } else if (req.method === 'GET') {
+    console.log(req.query)
     res.status(200).json(responseData);
   }
 };
