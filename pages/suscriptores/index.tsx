@@ -114,7 +114,10 @@ const Suscriptores: NextPage = () => {
       return (
         <>
           <div className="mx-auto max-w-2xl mt-6 select-none">
-            <Spinner />
+            <div className="inline-flex items-center text-gray-800 select-none">
+              <Spinner />
+              <p>Obteniendo resultados</p>
+            </div>
           </div>
         </>
       )
