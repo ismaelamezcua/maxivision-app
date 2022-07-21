@@ -1,8 +1,9 @@
 export interface Subscriber {
   name: string;
-  title: string;
   email: string;
-  role: string;
+  phone: string;
+  rfc: string;
+  spouse: string;
 };
 
 export interface ResponseError {

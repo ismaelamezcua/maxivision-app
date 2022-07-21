@@ -2,6 +2,7 @@ import {
   FC,
   ReactElement,
   Fragment,
+  useState,
 } from 'react';
 
 import { Transition, Dialog } from '@headlessui/react';
@@ -11,12 +12,48 @@ import {
   UserAddIcon,
 } from '@heroicons/react/outline';
 
+import type { Subscriber } from '../types';
+import Spinner from './Spinner';
+
 interface SubscriberModalProps {
   isModalOpen: boolean;
   closeModal: () => void;
 };
 
 const NewSubscriberModal: FC<SubscriberModalProps> = ({ isModalOpen, closeModal }): ReactElement => {
+  const initialState: Subscriber = {
+    name: '',
+    email: '',
+    phone: '',
+    rfc: '',
+    spouse: '',
+  };
+
+  const [subscriberInfo, setSubscriberInfo] = useState<Subscriber>(initialState);
+  const [isFetching, setIsFetching] = useState<boolean>(false);
+
+  const handleChange = (event) => {
+    setSubscriberInfo({ ...subscriberInfo, [event.target.name]: event.target.value });
+  };
+
+  const handleReset = (event) => {
+    event.preventDefault();
+    setSubscriberInfo(initialState);
+  };
+
+  const handleSubmit = (event) => {
+    event.preventDefault();
+    console.log(subscriberInfo);
+    setIsFetching(true);
+
+    setTimeout(() => {
+      setIsFetching(false)
+      /* Subscriber created in the backend */
+      setSubscriberInfo(initialState);
+    }, 3000);
+
+  };
+
   return (
     <Transition appear show={isModalOpen} as={Fragment}>
       <Dialog as="div" className="relative z-10" onClose={closeModal}>
@@ -52,7 +89,7 @@ const NewSubscriberModal: FC<SubscriberModalProps> = ({ isModalOpen, closeModal 
                     Nuevo suscriptor
                   </h3>
 
-                  <div className="px-3 py-4 cursor-pointer" onClick={closeModal} title="Cerrar ventana">
+                  <div className="px-3 py-4 cursor-pointer border border-white hover:border-gray-400" onClick={closeModal} title="Cerrar ventana">
                     <XIcon className="w-5 h-5" />
                   </div>
 
@@ -61,46 +98,91 @@ const NewSubscriberModal: FC<SubscriberModalProps> = ({ isModalOpen, closeModal 
                   <p className="text-sm text-gray-500">
                     Ingresa los datos del nuevo suscriptor. Los campos opcionales vienen indicados con una leyenda.
                   </p>
+
                 </div>
 
-                <form>
+                <form onSubmit={handleSubmit}>
                   <div className="form-field">
                     <label htmlFor="name" className="form-label">Nombre</label>
-                    <input className="form-input" type="text" name="name" />
+                    <input
+                      className="form-input"
+                      type="text"
+                      name="name"
+                      value={subscriberInfo.name}
+                      onChange={handleChange}
+                      required
+                    />
                   </div>
 
                   <div className="form-field mt-6">
                     <label htmlFor="email" className="form-label">Correo electr&oacute;nico</label>
-                    <input className="form-input" type="email" name="email" />
+                    <input
+                      className="form-input"
+                      type="email"
+                      name="email"
+                      value={subscriberInfo.email}
+                      onChange={handleChange}
+                      required
+                    />
                   </div>
 
                   <div className="form-field mt-6">
                     <label htmlFor="phone" className="form-label">Tel&eacute;fono</label>
-                    <input className="form-input" type="text" name="phone" />
+                    <input
+                      className="form-input"
+                      type="text"
+                      name="phone"
+                      value={subscriberInfo.phone}
+                      onChange={handleChange}
+                      required
+                    />
                   </div>
 
                   <div className="form-field mt-6">
-                    <label htmlFor="rfc" className="form-label">RFC (opcional)</label>
-                    <input className="form-input" type="text" name="rfc" />
+                    <label htmlFor="rfc" className="form-label">RFC <span className="text-gray-500">(Opcional)</span></label>
+                    <input
+                      className="form-input"
+                      type="text"
+                      name="rfc"
+                      value={subscriberInfo.rfc}
+                      onChange={handleChange}
+                    />
                   </div>
 
                   <div className="form-field mt-6">
-                    <label htmlFor="spouse" className="form-label">C&oacute;nyugue</label>
-                    <input className="form-input" type="text" name="spouse" />
+                    <label htmlFor="spouse" className="form-label">C&oacute;nyugue <span className="text-gray-500">(Opcional)</span></label>
+                    <input
+                      className="form-input"
+                      type="text"
+                      name="spouse"
+                      value={subscriberInfo.spouse}
+                      onChange={handleChange}
+                    />
                   </div>
 
                   <div className="flex flex-row mt-6 max-w-xl mx-auto space-x-6 justify-end">
                     <button
-                      type="reset"
+                      onClick={handleReset}
                       className="border border-gray-400 hover:bg-gray-100 px-4 py-3 text-gray-800 inline-flex items-center">
                       <TrashIcon className="w-5 h-5" />
                       <span className="ml-2">Limpiar formulario</span>
                     </button>
 
-                    <button className="bg-blue-600 hover:bg-blue-700 px-4 py-3 text-white inline-flex items-center">
-                      <UserAddIcon className="w-5 h-5" />
-                      <span className="ml-2">Crear usuario</span>
-                    </button>
+                    {isFetching
+                      ? (
+                        <button
+                          disabled={true}
+                          className="bg-gray-200 px-4 py-3 text-gray-400 inline-flex items-center">
+                          <Spinner />
+                          <span className="ml-2">Creando usuario</span>
+                        </button>
+                      )
+                      : (
+                        <button className="bg-blue-600 hover:bg-blue-700 px-4 py-3 text-white inline-flex items-center">
+                          <UserAddIcon className="w-5 h-5" />
+                          <span className="ml-2">Crear usuario</span>
+                        </button>
+                      )}
                   </div>
                 </form>
               </Dialog.Panel>
