@@ -193,10 +193,17 @@ const Suscriptores: NextPage = () => {
               >
                 <Dialog.Panel className="w-full max-w-2xl transform overflow-hidden border-t-2 border-blue-600 bg-white p-6 text-left align-middle shadow-xl transition-all">
                   <Dialog.Title
-                    as="h3"
-                    className="text-lg font-medium leading-6 text-gray-900"
+                    as="div"
+                    className="flex flex-row justify-between items-center"
                   >
-                    Nuevo suscriptor
+                    <h3 className="text-lg font-medium leading-6 text-gray-900">
+                      Nuevo suscriptor
+                    </h3>
+
+                    <div className="px-3 py-4 cursor-pointer" onClick={closeModal} title="Cerrar ventana">
+                      <XIcon className="w-5 h-5" />
+                    </div>
+
                   </Dialog.Title>
                   <div className="mt-2">
                     <p className="text-sm text-gray-500">
@@ -238,7 +245,7 @@ const Suscriptores: NextPage = () => {
                         <span className="ml-2">Limpiar formulario</span>
                       </button>
 
-                       <button className="bg-blue-600 hover:bg-blue-700 px-4 py-3 text-white inline-flex items-center">
+                      <button className="bg-blue-600 hover:bg-blue-700 px-4 py-3 text-white inline-flex items-center">
                         <UserAddIcon className="w-5 h-5" />
                         <span className="ml-2">Crear usuario</span>
                       </button>
