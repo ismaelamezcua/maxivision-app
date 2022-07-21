@@ -25,14 +25,23 @@ const responseData: Subscriber[] = [
 //   res.json(results);
 // }
 
-const subscriberApiHandler = async (req: NextApiRequest, res: NextApiResponse<Subscriber[] | ResponseError>) => {
-  const { searchTerm } = req.body;
-
+const subscriberApiHandler = async (req: NextApiRequest, res: NextApiResponse) => {
   if (req.method === 'POST') {
-    console.log({ searchTerm })
-    setTimeout(() => {
-      res.status(200).json(responseData);
-    }, 4000)
+    /* Create a new subscriber */
+    // const subscriberInfo = req.body;
+    const { name, email, phone, rfc, spouse } = req.body;
+
+    const subscriber = await prisma.subscriber.create({
+      data: {
+        name,
+        email,
+        phone,
+        rfc,
+        spouse,
+      },
+    });
+
+    res.status(200).json(subscriber);
   } else if (req.method === 'GET') {
     console.log(req.query)
     res.status(200).json(responseData);
