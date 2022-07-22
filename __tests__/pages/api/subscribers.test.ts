@@ -3,7 +3,7 @@
  */
 import { createMocks, RequestMethod } from 'node-mocks-http';
 import { NextApiRequest, NextApiResponse } from 'next';
-import subscriberApiHandler from '../../../pages/api/subscribers';
+import subscribersApiHandler from '../../../pages/api/subscribers';
 import { Subscriber } from '../../../types';
 
 describe('/api/subscribers API endpoint', () => {
@@ -28,7 +28,7 @@ describe('/api/subscribers API endpoint', () => {
     const { req, res } = mockRequestResponse('POST');
     req.body = subscriberMock;
 
-    await subscriberApiHandler(req, res);
+    await subscribersApiHandler(req, res);
 
     expect(res.statusCode).toBe(201);
     expect(res.getHeaders()).toEqual({ 'content-type': 'application/json' });
@@ -38,7 +38,7 @@ describe('/api/subscribers API endpoint', () => {
   it('should return 501 method not supported for GET method', async () => {
     const { req, res } = mockRequestResponse();
     
-    await subscriberApiHandler(req, res);
+    await subscribersApiHandler(req, res);
 
     expect(res.statusCode).toBe(501);
     expect(res.getHeaders()).toEqual({ 'content-type': 'application/json' });
@@ -48,7 +48,7 @@ describe('/api/subscribers API endpoint', () => {
   it('should return 501 method not supported for PUT method', async () => {
     const { req, res } = mockRequestResponse('PUT');
     
-    await subscriberApiHandler(req, res);
+    await subscribersApiHandler(req, res);
 
     expect(res.statusCode).toBe(501);
     expect(res.getHeaders()).toEqual({ 'content-type': 'application/json' });
@@ -58,7 +58,7 @@ describe('/api/subscribers API endpoint', () => {
   it('should return 501 method not supported for DELETE method', async () => {
     const { req, res } = mockRequestResponse('DELETE');
     
-    await subscriberApiHandler(req, res);
+    await subscribersApiHandler(req, res);
 
     expect(res.statusCode).toBe(501);
     expect(res.getHeaders()).toEqual({ 'content-type': 'application/json' });
