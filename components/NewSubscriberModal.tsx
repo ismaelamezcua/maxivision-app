@@ -31,6 +31,7 @@ const NewSubscriberModal: FC<SubscriberModalProps> = ({ isModalOpen, closeModal 
 
   const [subscriberInfo, setSubscriberInfo] = useState<Subscriber>(initialState);
   const [isFetching, setIsFetching] = useState<boolean>(false);
+  const [showAlert, setShowAlert] = useState<boolean>(false);
 
   const handleChange = (event) => {
     setSubscriberInfo({ ...subscriberInfo, [event.target.name]: event.target.value });
@@ -57,7 +58,11 @@ const NewSubscriberModal: FC<SubscriberModalProps> = ({ isModalOpen, closeModal 
       .then(response => response.json())
       .then(data => {
         setIsFetching(false);
-        console.log(data)
+
+        /* Clean the form */
+        handleReset(event);
+        setShowAlert(true);
+        setTimeout(() => setShowAlert(false), 3000);
       });
   };
 
@@ -77,6 +82,20 @@ const NewSubscriberModal: FC<SubscriberModalProps> = ({ isModalOpen, closeModal 
         </Transition.Child>
 
         <div className="fixed inset-0 overflow-y-auto">
+          <Transition
+            show={showAlert}
+            enter="transition-opacity duration-150"
+            enterFrom="opacity-0"
+            enterTo="opacity-100"
+            leave="transition-opacity duration-150"
+            leaveFrom="opacity-100"
+            leaveTo="opacity-0"
+          >
+            <div className="absolute left-0 right-0 font-bold text-green-800 px-4 py-3 bg-green-200 text-center">
+              Usuario registrado con &eacute;xito.
+            </div>
+          </Transition>
+
           <div className="flex min-h-full items-center justify-center p-4 text-center">
             <Transition.Child
               as={Fragment}
