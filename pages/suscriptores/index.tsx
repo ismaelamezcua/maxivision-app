@@ -1,18 +1,11 @@
 import { NextPage } from 'next';
 import Head from 'next/head';
-import Link from 'next/link';
 
 import {
   useState,
   ChangeEvent,
   FormEvent,
-  Fragment,
 } from 'react';
-
-import {
-  Transition,
-  Dialog,
-} from '@headlessui/react';
 
 import Spinner from '@/components/Spinner';
 import SearchInput from '@/components/SearchInput';
@@ -24,7 +17,7 @@ import { Subscriber } from '@/types';
 import { XIcon, UserAddIcon } from '@heroicons/react/outline';
 
 const Suscriptores: NextPage = () => {
-  const [searchTerm, setSearchTerm] = useState<string>('');
+  const [term, setTerm] = useState<string>('');
   const [isFetching, setIsFetching] = useState<boolean>(false);
   const [subscribers, setSubscribers] = useState<Subscriber[]>([]);
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
@@ -39,19 +32,17 @@ const Suscriptores: NextPage = () => {
   }
 
   function handleChange(e: ChangeEvent<HTMLInputElement>) {
-    setSearchTerm(e.target.value);
+    setTerm(e.target.value);
   }
 
   function handleSubmit(e: FormEvent) {
     e.preventDefault();
-    if (!searchTerm) return;
+    if (!term) return;
 
     setIsFetching(true);
-    let searchUri = `/api/search?query=${searchTerm}`;
-
-    fetch('/api/subscribers', {
+    fetch('/api/search', {
       method: 'POST',
-      body: JSON.stringify({ searchTerm }),
+      body: JSON.stringify({ term }),
       headers: {
         'Content-Type': 'application/json'
       }
@@ -65,12 +56,12 @@ const Suscriptores: NextPage = () => {
 
   function handleReset(e: FormEvent) {
     e.preventDefault();
-    setSearchTerm('');
+    setTerm('');
   }
 
   const cleanTableResults = () => {
     setSubscribers([]);
-    setSearchTerm('');
+    setTerm('');
   }
 
   function renderTableResults() {
@@ -81,20 +72,20 @@ const Suscriptores: NextPage = () => {
             <thead>
               <tr className="text-left border-b border-slate-100">
                 <th className="p-4">Name</th>
-                <th>Title</th>
                 <th>Email</th>
-                <th>Role</th>
-                <th></th>
+                <th>Phone</th>
+                <th>RFC</th>
+                <th>Spouse</th>
               </tr>
             </thead>
             <tbody>
-              {subscribers.map(({ name, title, email, role }, index) => (
+              {subscribers.map(({ name, email, phone, rfc, spouse }, index) => (
                 <tr key={index} className="text-gray-600 border-b border-gray-200 hover:bg-gray-50">
                   <td className="p-4 text-gray-800">{name}</td>
-                  <td>{title}</td>
                   <td>{email}</td>
-                  <td>{role}</td>
-                  <td>Edit</td>
+                  <td>{phone}</td>
+                  <td>{rfc}</td>
+                  <td>{spouse}</td>
                 </tr>
               ))}
             </tbody>
@@ -156,7 +147,7 @@ const Suscriptores: NextPage = () => {
 
             <div className="mx-auto max-w-2xl">
               <SearchInput
-                searchTerm={searchTerm}
+                searchTerm={term}
                 placeholder="B&uacute;squeda por Nombre o Calle"
                 handleChange={handleChange}
                 handleSubmit={handleSubmit}

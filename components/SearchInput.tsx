@@ -20,6 +20,7 @@ const SearchInput: FC<SearchInputProps> = (props): ReactElement => {
 
   return (
     <form
+      method="POST"
       className="w-full relative"
       onSubmit={handleSubmit}
     >
@@ -41,6 +42,7 @@ const SearchInput: FC<SearchInputProps> = (props): ReactElement => {
         type="text"
         className="w-full border-gray-400 focus:border-blue-700 px-12 py-3"
         placeholder={placeholder}
+        name="term"
         value={searchTerm}
         onChange={handleChange}
       />
