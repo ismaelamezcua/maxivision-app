@@ -1,5 +1,5 @@
 import type { NextApiRequest, NextApiResponse } from "next";
-import prisma from '../../lib/prisma';
+import prisma from '@/lib/prisma';
 
 const subscribersApiHandler = async (req: NextApiRequest, res: NextApiResponse) => {
   if (req.method === 'GET' || req.method === 'PUT' || req.method === 'DELETE') {

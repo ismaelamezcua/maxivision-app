@@ -1,6 +1,6 @@
 import type { NextApiRequest, NextApiResponse } from "next";
-import prisma from '../../../lib/prisma';
-import { Subscriber } from "../../../types";
+import prisma from '@/lib/prisma';
+import { Subscriber } from "@/types";
 
 const subscriberApiHandler = async (req: NextApiRequest, res: NextApiResponse) => {
   if (req.method === 'GET') {

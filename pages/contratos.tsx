@@ -1,7 +1,7 @@
 import { FC, ReactElement, useState, ReactNode, ChangeEvent, FormEvent } from 'react';
 import { NextPage } from 'next';
 import Head from 'next/head';
-import SearchInput from '../components/SearchInput';
+import SearchInput from '@/components/SearchInput';
 import { PlusIcon, UserAddIcon } from '@heroicons/react/outline';
 
 const Contratos: NextPage = (): ReactElement => {

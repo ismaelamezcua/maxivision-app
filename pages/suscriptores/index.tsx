@@ -14,12 +14,12 @@ import {
   Dialog,
 } from '@headlessui/react';
 
-import Spinner from '../../components/Spinner';
-import SearchInput from '../../components/SearchInput';
-import NewSubscriberModal from '../../components/NewSubscriberModal';
-import AppearTransition from '../../components/AppearTransition';
+import Spinner from '@/components/Spinner';
+import SearchInput from '@/components/SearchInput';
+import NewSubscriberModal from '@/components/NewSubscriberModal';
+import AppearTransition from '@/components/AppearTransition';
 
-import { Subscriber } from '../../types';
+import { Subscriber } from '@/types';
 
 import { XIcon, UserAddIcon } from '@heroicons/react/outline';
 
