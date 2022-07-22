@@ -33,16 +33,16 @@ const NewSubscriberModal: FC<SubscriberModalProps> = ({ isModalOpen, closeModal 
   const [isFetching, setIsFetching] = useState<boolean>(false);
   const [showAlert, setShowAlert] = useState<boolean>(false);
 
-  const handleChange = (event) => {
+  function handleChange(event) {
     setSubscriberInfo({ ...subscriberInfo, [event.target.name]: event.target.value });
-  };
+  }
 
-  const handleReset = (event) => {
+  function handleReset(event) {
     event.preventDefault();
     setSubscriberInfo(initialState);
-  };
+  }
 
-  const handleSubmit = (event) => {
+  function handleSubmit(event) {
     event.preventDefault();
     /* POST request for subscriber creation */
     const requestOptions = {
@@ -64,7 +64,7 @@ const NewSubscriberModal: FC<SubscriberModalProps> = ({ isModalOpen, closeModal 
         setShowAlert(true);
         setTimeout(() => setShowAlert(false), 3000);
       });
-  };
+  }
 
   return (
     <Transition appear show={isModalOpen} as={Fragment}>
@@ -188,6 +188,7 @@ const NewSubscriberModal: FC<SubscriberModalProps> = ({ isModalOpen, closeModal 
 
                   <div className="flex flex-row mt-6 max-w-xl mx-auto space-x-6 justify-end">
                     <button
+                      type="reset"
                       onClick={handleReset}
                       className="border border-gray-400 hover:bg-gray-100 px-4 py-3 text-gray-800 inline-flex items-center">
                       <TrashIcon className="w-5 h-5" />
@@ -198,13 +199,18 @@ const NewSubscriberModal: FC<SubscriberModalProps> = ({ isModalOpen, closeModal 
                       ? (
                         <button
                           disabled={true}
-                          className="bg-gray-200 px-4 py-3 text-gray-400 inline-flex items-center">
+                          type="submit"
+                          className="bg-gray-200 px-4 py-3 text-gray-400 inline-flex items-center"
+                        >
                           <Spinner />
                           <span className="ml-2">Creando usuario</span>
                         </button>
                       )
                       : (
-                        <button className="bg-blue-600 hover:bg-blue-700 px-4 py-3 text-white inline-flex items-center">
+                        <button
+                          type="submit"
+                          className="bg-blue-600 hover:bg-blue-700 px-4 py-3 text-white inline-flex items-center"
+                        >
                           <UserAddIcon className="w-5 h-5" />
                           <span className="ml-2">Crear usuario</span>
                         </button>
