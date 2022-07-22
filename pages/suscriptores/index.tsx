@@ -7,14 +7,13 @@ import {
   FormEvent,
 } from 'react';
 
-import Spinner from '@/components/Spinner';
 import SearchInput from '@/components/SearchInput';
+import ResultsTable from '@/components/subscribers/ResultsTable';
 import NewSubscriberModal from '@/components/NewSubscriberModal';
-import AppearTransition from '@/components/AppearTransition';
 
 import { Subscriber } from '@/types';
 
-import { XIcon, UserAddIcon } from '@heroicons/react/outline';
+import { UserAddIcon } from '@heroicons/react/outline';
 
 const Suscriptores: NextPage = () => {
   const [term, setTerm] = useState<string>('');
@@ -22,7 +21,6 @@ const Suscriptores: NextPage = () => {
   const [subscribers, setSubscribers] = useState<Subscriber[]>([]);
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
 
-  /* new subscriber modal controls */
   function closeModal() {
     setIsModalOpen(false);
   }
@@ -64,58 +62,6 @@ const Suscriptores: NextPage = () => {
     setTerm('');
   }
 
-  function renderTableResults() {
-    if (!isFetching && subscribers.length > 0) {
-      return (
-        <>
-          <table className="table-auto w-full mt-6">
-            <thead>
-              <tr className="text-left border-b border-slate-100">
-                <th className="p-4">Name</th>
-                <th>Email</th>
-                <th>Phone</th>
-                <th>RFC</th>
-                <th>Spouse</th>
-              </tr>
-            </thead>
-            <tbody>
-              {subscribers.map(({ name, email, phone, rfc, spouse }, index) => (
-                <tr key={index} className="text-gray-600 border-b border-gray-200 hover:bg-gray-50">
-                  <td className="p-4 text-gray-800">{name}</td>
-                  <td>{email}</td>
-                  <td>{phone}</td>
-                  <td>{rfc}</td>
-                  <td>{spouse}</td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-
-          <div className="flex flex-row-reverse mt-6">
-            <div
-              className="px-4 py-3 text-gray-800 border border-gray-400 hover:bg-gray-100 cursor-pointer inline-flex items-center"
-              onClick={cleanTableResults}
-            >
-              <XIcon className="w-5 h-5" />
-              <span className="ml-2">Borrar resultados</span>
-            </div>
-          </div>
-        </>
-      )
-    } else if (isFetching && subscribers.length === 0) {
-      return (
-        <>
-          <div className="mx-auto max-w-2xl mt-6 select-none">
-            <div className="inline-flex items-center text-gray-800 select-none">
-              <Spinner />
-              <p>Obteniendo resultados</p>
-            </div>
-          </div>
-        </>
-      )
-    }
-  }
-
   return (
     <>
       <Head>
@@ -132,19 +78,9 @@ const Suscriptores: NextPage = () => {
               <UserAddIcon className="w-5 h-5" />
               <span className="ml-2">Agregar suscriptor</span>
             </div>
-
-            {/* <Link href="/suscriptores/nuevo">
-              <a>
-                <div className="bg-blue-600 hover:bg-blue-700 px-4 py-3 text-white inline-flex items-center">
-                  <UserAddIcon className="w-5 h-5" />
-                  <span className="ml-2">Agregar suscriptor</span>
-                </div>
-              </a>
-            </Link> */}
           </div>
 
           <div className="bg-white p-6">
-
             <div className="mx-auto max-w-2xl">
               <SearchInput
                 searchTerm={term}
@@ -155,9 +91,11 @@ const Suscriptores: NextPage = () => {
               />
             </div>
 
-            <AppearTransition show={true}>
-              {renderTableResults()}
-            </AppearTransition>
+            <ResultsTable
+              isFetching={isFetching}
+              subscribers={subscribers}
+              handleCleanResults={cleanTableResults}
+            />
           </div>
         </div>
       </div>

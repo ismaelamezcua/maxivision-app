@@ -6,6 +6,7 @@ const AppearTransition: FC<{ children: ReactNode, show: boolean }> = (props): Re
 
   return (
     <Transition
+      appear={true}
       show={show}
       enter="transition-opacity ease-linear duration-300"
       enterFrom="opacity-0"
