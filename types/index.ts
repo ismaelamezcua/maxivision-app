@@ -1,13 +1,5 @@
-export interface Subscriber {
-  id?: number;
-  name: string;
-  email: string;
-  phone: string;
-  rfc: string;
-  spouse: string;
-};
+import type { Subscriber } from '@/types/subscriber';
 
-export interface ResponseError {
-  status: string;
-  error: string;
+export {
+  Subscriber,
 }
