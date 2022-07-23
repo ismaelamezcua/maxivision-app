@@ -9,7 +9,7 @@ import {
 
 import SearchInput from '@/components/SearchInput';
 import ResultsTable from '@/components/subscribers/ResultsTable';
-import NewSubscriberModal from '@/components/NewSubscriberModal';
+import NewSubscriberModal from '@/components/subscribers/NewSubscriberModal';
 
 import { Subscriber } from '@/types';
 

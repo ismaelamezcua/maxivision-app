@@ -12,8 +12,8 @@ import {
   UserAddIcon,
 } from '@heroicons/react/outline';
 
-import type { Subscriber } from '../types';
-import Spinner from './Spinner';
+import type { Subscriber } from '@/types';
+import Spinner from '@/components/Spinner';
 
 interface SubscriberModalProps {
   isModalOpen: boolean;
