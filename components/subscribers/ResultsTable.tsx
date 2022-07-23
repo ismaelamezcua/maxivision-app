@@ -3,6 +3,7 @@ import { Subscriber } from '@/types';
 import { XIcon } from '@heroicons/react/outline';
 import Spinner from '@/components/Spinner';
 import AppearTransition from '../AppearTransition';
+import Link from 'next/link';
 
 interface TableProps {
   subscribers: Subscriber[];
@@ -44,14 +45,16 @@ const ResultsTable: FC<TableProps> = (props): ReactElement => {
             </tr>
           </thead>
           <tbody>
-            {subscribers.map(({ name, email, phone, rfc, spouse }, index) => (
-              <tr key={index} className="text-gray-600 border-b border-gray-200 hover:bg-gray-50">
-                <td className="p-4 text-gray-800">{name}</td>
-                <td>{email}</td>
-                <td>{phone}</td>
-                <td>{rfc}</td>
-                <td>{spouse}</td>
-              </tr>
+            {subscribers.map(({ id, name, email, phone, rfc, spouse }, index) => (
+              <Link key={index} href={`/suscriptores/${id}`}>
+                <tr className="text-gray-600 border-b border-gray-200 hover:bg-gray-50 cursor-pointer">
+                  <td className="p-4 text-gray-800">{name}</td>
+                  <td>{email}</td>
+                  <td>{phone}</td>
+                  <td>{rfc}</td>
+                  <td>{spouse}</td>
+                </tr>
+              </Link>
             ))}
           </tbody>
         </table>
