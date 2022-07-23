@@ -6,6 +6,7 @@ const subscriberApiHandler = async (req: NextApiRequest, res: NextApiResponse) =
   if (req.method === 'GET') {
     /* Return subscriber with [id] */
     const { id } = req.query;
+
     const subscriber = await prisma.subscriber.findUnique({
       where: {
         id: parseInt(id as string),
@@ -42,11 +43,20 @@ const subscriberApiHandler = async (req: NextApiRequest, res: NextApiResponse) =
 
     subscriber !== null
       ? res.status(200).json(subscriber)
-      : res.status(409).json({ status: 'Something went wrong ' });
+      : res.status(409).json({ status: 'Could not update the subscriber.' });
 
     return;
   } else if (req.method === 'DELETE') {
     /* Remove subscriber [id] */
+    const { id } = req.query;
+
+    const subscriber = await prisma.subscriber.delete({
+      where: {
+        id: parseInt(id as string)
+      }
+    });
+
+    res.status(204).json({ status: `Subscriber with id ${id} deleted.` });
 
     return;
   }
