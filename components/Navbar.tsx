@@ -52,7 +52,7 @@ const Navbar: FC = (): ReactElement => {
             {menuEntries.map(({ label, href, description, icon }, index) => (
               <Link key={index} href={href}>
                 <a>
-                  <div className={`w-full p-2 inline-flex ${(router.asPath === href) ? 'border-b-2 border-blue-600 font-semibold' : 'hover:border-b-2'} `}>
+                  <div className={`w-full p-2 inline-flex ${(router.asPath.includes(href)) ? 'border-b-2 border-blue-600 font-semibold' : 'hover:border-b-2'} `}>
                     {icon}
                     <span className="ml-1" title={description}>{label}</span>
                   </div>
