@@ -3,11 +3,12 @@ import Head from 'next/head';
 import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
 import { Subscriber } from '@/types';
-import { ChevronLeftIcon } from '@heroicons/react/outline';
+import { ChevronLeftIcon, PencilAltIcon, SaveIcon } from '@heroicons/react/outline';
 
 const SubscriberDetails: NextPage = () => {
   const [subscriber, setSubscriber] = useState<Subscriber>();
   const [isLoading, setIsLoading] = useState<boolean>(true);
+  const [nameDisabled, setNameDisabled] = useState<boolean>(true);
   const router = useRouter();
   const { id } = router.query;
 
@@ -15,12 +16,14 @@ const SubscriberDetails: NextPage = () => {
     fetch(`/api/subscribers/${id}`)
       .then(response => response.json())
       .then(subscriber => {
-        console.log('====================================')
-        console.log({ subscriber })
         setSubscriber(subscriber);
         setIsLoading(false);
       });
   }, []);
+
+  function handleChange(event) {
+    setSubscriber({ ...subscriber, [event.target.name]: event.target.value });
+  }
 
   return (
     <>
@@ -44,10 +47,33 @@ const SubscriberDetails: NextPage = () => {
           </div>
 
           <div className="bg-white p-6">
-            {isLoading
-              ? <h1>Is Loading</h1>
-              : <p>Nombre: Hola {subscriber.name}</p>
-            }
+            {subscriber && (
+              <div className="flex space-x-2 max-w-3xl mx-auto items-center">
+                <div className="basis-1/4">
+                  <p className="font-bold text-gray-600">Nombre</p>
+                </div>
+                <div className="flex-grow">
+                  <input
+                    className={`${!nameDisabled && 'bg-blue-100'} form-input`}
+                    type="text"
+                    name="name"
+                    value={subscriber.name}
+                    onChange={handleChange}
+                    disabled={nameDisabled}
+                    required
+                  />
+                </div>
+                <div
+                  className="px-2 py-3 hover:bg-gray-100 border border-white hover:border-gray-400 cursor-pointer"
+                  onClick={() => setNameDisabled(!nameDisabled)}
+                >
+                  {nameDisabled
+                    ? <PencilAltIcon className="w-6 h-6" />
+                    : <SaveIcon className="w-6 h-6" />
+                  }
+                </div>
+              </div>
+            )}
           </div>
         </div>
       </div>
