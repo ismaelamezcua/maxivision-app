@@ -3,6 +3,7 @@ import Head from 'next/head';
 
 import {
   useState,
+  useEffect,
   ChangeEvent,
   FormEvent,
 } from 'react';
@@ -21,6 +22,14 @@ const Suscriptores: NextPage = () => {
   const [subscribers, setSubscribers] = useState<Subscriber[]>([]);
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
 
+  // Check if localStorage has the searchResults object stored
+  useEffect(() => {
+    const searchResults = localStorage.getItem('searchResults');
+    if (searchResults !== null) {
+      setSubscribers(JSON.parse(searchResults));
+    }
+  }, []);
+
   function closeModal() {
     setIsModalOpen(false);
   }
@@ -38,6 +47,7 @@ const Suscriptores: NextPage = () => {
     if (!term) return;
 
     setIsFetching(true);
+
     fetch('/api/search', {
       method: 'POST',
       body: JSON.stringify({ term }),
@@ -45,10 +55,11 @@ const Suscriptores: NextPage = () => {
         'Content-Type': 'application/json'
       }
     })
-      .then(res => res.json())
-      .then(subs => {
+      .then(response => response.json())
+      .then(subscribers => {
+        setSubscribers(subscribers)
+        localStorage.setItem('searchResults', JSON.stringify(subscribers));
         setIsFetching(false);
-        setSubscribers(subs)
       });
   }
 
@@ -59,6 +70,7 @@ const Suscriptores: NextPage = () => {
 
   const cleanTableResults = () => {
     setSubscribers([]);
+    localStorage.removeItem('searchResults');
     setTerm('');
   }
 
