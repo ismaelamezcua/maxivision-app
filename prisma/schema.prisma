@@ -25,7 +25,7 @@ model Subscription {
   address      String
   suburb       String
   identifier   String      @default("Pendiente")
-  tv_count     Int         @default(1)
+  tvCount      Int         @default(1)
   status       String      @default("Desconectado")
   cfe          String?
   remarks      String?

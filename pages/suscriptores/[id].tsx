@@ -2,8 +2,9 @@ import { NextPage } from 'next';
 import Head from 'next/head';
 import { useRouter } from 'next/router';
 import { FC, ReactElement, useEffect, useState, VoidFunctionComponent } from 'react';
-import { Subscriber } from '@/types';
-import { ChevronLeftIcon, PencilAltIcon, SaveIcon } from '@heroicons/react/outline';
+import { Subscriber, Subscription } from '@/types';
+import NewSubscriptionModal from '@/components/subscriptions/NewSubscriptionModal';
+import { ChevronLeftIcon, PencilAltIcon, PlusIcon, SaveIcon } from '@heroicons/react/outline';
 
 interface DetailsInputProps {
   label: string;
@@ -22,7 +23,7 @@ const DetailsInput: FC<DetailsInputProps> = (props): ReactElement => {
       <div className="flex-grow">
         <input
           className="form-input"
-          type={name === 'email'? 'email' : 'text'}
+          type={name === 'email' ? 'email' : 'text'}
           name={name}
           value={value}
           onChange={onChange}
@@ -38,6 +39,7 @@ const SubscriberDetails: NextPage = () => {
   const [subscriber, setSubscriber] = useState<Subscriber>();
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [editMode, setEditMode] = useState<boolean>(false);
+  const [newContractModal, setNewContratModal] = useState<boolean>(false);
   const router = useRouter();
   const { id } = router.query;
 
@@ -116,6 +118,31 @@ const SubscriberDetails: NextPage = () => {
                 </form>
               </>
             )}
+          </div>
+        </div>
+      </div>
+
+      <hr className="mt-6 max-w-6xl mx-auto border-2 border-gray-300" />
+
+      <NewSubscriptionModal isModalOpen={newContractModal} closeModal={() => setNewContratModal(false)} subscriberId={parseInt(id as string)} />
+
+      <div className="container mx-auto max-w-6xl mt-6">
+        <div className="flex flex-col space-y-6">
+
+          <div className="flex flex-row justify-between items-center">
+            <h1 className="text-3xl font-bold text-blue-600">Contratos</h1>
+
+            <div
+              className="bg-blue-600 hover:bg-blue-700 px-4 py-3 text-white inline-flex items-center cursor-pointer"
+              onClick={() => setNewContratModal(true)}
+            >
+              <PlusIcon className="w-5 h-5" />
+              <span className="ml-2">Agregar contratro</span>
+            </div>
+          </div>
+
+          <div className="bg-white p-6">
+            Contratos
           </div>
         </div>
       </div>

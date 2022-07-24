@@ -1,4 +1,4 @@
-export interface Contract {
+export interface Subscription {
   id?: number;
   createdAt?: string;
   updatedAt?: string;
@@ -8,6 +8,6 @@ export interface Contract {
   tvCount: number;
   status: string;
   cfe?: string;
-  remakers?: string;
+  remarks?: string;
   subscriberId?: number;
 };

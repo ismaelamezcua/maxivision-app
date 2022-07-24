@@ -1,7 +1,7 @@
 import type { Subscriber } from '@/types/subscriber';
-import type { Contract } from '@/types/contract';
+import type { Subscription } from '@/types/subscription';
 
 export {
   Subscriber,
-  Contract,
+  Subscription,
 };
