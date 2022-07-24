@@ -37,18 +37,20 @@ const ResultsTable: FC<TableProps> = (props): ReactElement => {
         <table className="table-auto w-full mt-6">
           <thead>
             <tr className="text-left border-b border-slate-100">
-              <th className="p-4">Name</th>
-              <th>Email</th>
-              <th>Phone</th>
+              <th className="p-4">No.</th>
+              <th>Nombre</th>
+              <th>Correo electr&oacute;nico</th>
+              <th>Tel&eacute;fono</th>
               <th>RFC</th>
-              <th>Spouse</th>
+              <th>C&oacute;nyugue</th>
             </tr>
           </thead>
           <tbody>
             {subscribers.map(({ id, name, email, phone, rfc, spouse }, index) => (
               <Link key={index} href={`/suscriptores/${id}`}>
                 <tr className="text-gray-600 border-b border-gray-200 hover:bg-gray-50 cursor-pointer">
-                  <td className="p-4 text-gray-800">{name}</td>
+                  <td className="p-4">{index}</td>
+                  <td className="text-black">{name}</td>
                   <td>{email}</td>
                   <td>{phone}</td>
                   <td>{rfc}</td>
