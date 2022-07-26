@@ -8,7 +8,7 @@
 }
 
 body {
-  @apply bg-gray-100;
+  @apply bg-slate-100;
 }
 
 @layer components {
@@ -16,10 +16,10 @@ body {
     @apply flex flex-col max-w-xl mx-auto space-y-1;
   }
   .form-label {
-    @apply font-semibold text-gray-800;
+    @apply font-semibold text-slate-800;
   }
 
   .form-input {
-    @apply w-full border-gray-400 focus:border-blue-700 px-4 py-3;
+    @apply w-full border-slate-400 focus:border-blue-700 px-4 py-3;
   }
 }
