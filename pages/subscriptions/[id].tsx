@@ -16,7 +16,7 @@ interface InputFieldProps {
   value: string;
   disabled?: boolean;
   required?: boolean;
-  onChange: () => void;
+  onChange?: () => void;
 }
 
 const InputField: FC<InputFieldProps> = (props) => {
@@ -39,8 +39,8 @@ const InputField: FC<InputFieldProps> = (props) => {
           type={type}
           name={name}
           value={value}
-          disabled={!disabled}
-          required={!required}
+          disabled={disabled}
+          required={required}
           onChange={onChange}
         />
       </div>
@@ -56,7 +56,7 @@ const SubscriptionDetails: NextPage = () => {
   const [transactions, setTransactions] = useState<Transaction[]>();
   const [serviceReports, setServiceReports] = useState<ServiceReport[]>();
   const [isFetching, setIsFetching] = useState<boolean>(false);
-  const [editMode, setEditMode] = useState<boolean>(false);
+  const [isDisabled, setIsDisabled] = useState<boolean>(true);
 
   useEffect(() => {
     setIsFetching(true);
@@ -117,86 +117,104 @@ const SubscriptionDetails: NextPage = () => {
                 type="text"
                 name="createdAt"
                 value={new Date(subscription.createdAt!).toLocaleDateString()}
-                disabled={editMode}
-                onChange={handleChange}
+                disabled
               />
               <InputField
                 label="Última modificación"
                 type="text"
                 name="updatedAt"
                 value={new Date(subscription.updatedAt!).toLocaleDateString()}
-                disabled={editMode}
-                onChange={handleChange}
+                disabled
               />
               <InputField
                 label="Dirección"
                 type="text"
                 name="address"
                 value={subscription.address}
-                disabled={editMode}
-                required
+                disabled={isDisabled}
                 onChange={handleChange}
+                required
               />
               <InputField
                 label="Colonia"
                 type="text"
                 name="suburb"
                 value={subscription.suburb}
-                disabled={editMode}
-                required
+                disabled={isDisabled}
                 onChange={handleChange}
+                required
               />
               <InputField
                 label="Identificador"
                 type="text"
                 name="identifier"
                 value={subscription.identifier}
-                disabled={editMode}
-                required
+                disabled={isDisabled}
                 onChange={handleChange}
+                required
               />
               <InputField
                 label="Número de televisiones"
                 type="number"
                 name="tvCount"
                 value={subscription.tvCount.toString()}
-                disabled={editMode}
-                required
+                disabled={isDisabled}
                 onChange={handleChange}
+                required
               />
               <InputField
                 label="Estado del servicio"
                 type="text"
                 name="status"
                 value={subscription.status}
-                disabled={editMode}
-                required
+                disabled={isDisabled}
                 onChange={handleChange}
+                required
               />
+
+              <div className="flex space-x-8 w-full items-center mb-6">
+                <div className="basis-1/4 text-right">Estado del servicio</div>
+                <div className="flex-grow">
+                  <select
+                    className="form-input"
+                    name="status"
+                    value={subscription.status}
+                    disabled={isDisabled}
+                    onChange={handleChange}
+                  >
+                    <option value="Conectado">Conectado</option>
+                    <option value="Desconectado">Desconectado</option>
+                    <option value="Suspendido">Suspendido</option>
+                    <option value="Suspendido Temporal">Suspendido Temporal</option>
+                    <option value="Cancelado">Cancelado</option>
+                  </select>
+                </div>
+              </div>
+
               <InputField
                 label="Número de medidor"
                 type="text"
                 name="cfe"
                 value={subscription.cfe!}
-                disabled={editMode}
-                required
+                disabled={isDisabled}
                 onChange={handleChange}
+                required
               />
               <InputField
                 label="Observaciones"
                 type="text"
                 name="remarks"
                 value={subscription.remarks!}
-                disabled={editMode}
-                required
+                disabled={isDisabled}
                 onChange={handleChange}
+                required
               />
               <div className="flex flex-row mt-6 justify-end">
-                {!editMode
+                {isDisabled
                   ? (
                     <div
                       className="px-4 py-3 text-gray-800 border border-gray-400 hover:bg-gray-100 cursor-pointer inline-flex items-center"
-                      onClick={() => setEditMode(true)}
+                      onClick={() => setIsDisabled(!isDisabled)}
                     >
                       <PencilAltIcon className="w-5 h-5" />
                       <span className="ml-2">Editar suscriptor</span>
@@ -230,6 +248,10 @@ const SubscriptionDetails: NextPage = () => {
 
           {transactions != undefined && (
             <h1 className="font-black">Transactions</h1>
+          )}
+
+          {serviceReports != undefined && (
+            <h1 className="text-2xl">Reportes de servicio</h1>
           )}
         </div>
       </div>
