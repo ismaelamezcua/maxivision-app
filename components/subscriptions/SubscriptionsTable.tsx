@@ -6,35 +6,28 @@ import { Subscription } from '@/types';
 import AppearTransition from '@/components/AppearTransition';
 
 const SubscriptionsTable: FC<{ subscriptions: Subscription[] }> = ({ subscriptions }): ReactElement => {
-  function formatDate(date: string) {
-    const formattedDate = new Date(date);
-
-    return (<span>{formattedDate.toLocaleDateString()}</span>);
-  }
   return (
     <>
       <AppearTransition show={true}>
         <table className="table-auto w-full mt-6">
           <thead>
             <tr className="text-left border-b border-slate-100">
-              <th className="p-4">No.</th>
-              <th>Creaci&oacute;n</th>
-              <th>Direcci&oacute;n</th>
+              <th className="p-4">Direcci&oacute;n</th>
               <th>Colonia</th>
               <th>No. TV</th>
               <th>Estado</th>
+              <th>Observaciones</th>
             </tr>
           </thead>
           <tbody>
-            {subscriptions.map(({ id, createdAt, address, suburb, tvCount, status }, index) => (
+            {subscriptions.map(({ id, address, suburb, tvCount, status, remarks }, index) => (
               <Link key={index} href={`/subscriptions/${id}`}>
                 <tr className="text-gray-600 border-b border-gray-200 hover:bg-gray-50 cursor-pointer">
-                  <td className="p-4">{index}</td>
-                  <td>{formatDate(createdAt as string)}</td>
-                  <td className="text-black">{address}</td>
+                  <td className="p-4 text-black">{address}</td>
                   <td>{suburb}</td>
                   <td>{tvCount}</td>
                   <td>{status}</td>
+                  <td>{remarks}</td>
                 </tr>
               </Link>
             ))}
