@@ -23,11 +23,11 @@ interface TransactionModalProps {
 
 const NewTransactionModal: FC<TransactionModalProps> = ({ isModalOpen, closeModal, subscriptionId }): ReactElement => {
   const initialState: Transaction = {
-    type: '',
+    type: 'Mensualidad',
     price: 0,
     concept: '',
     receiptId: '',
-    subscriptionId: 0,
+    subscriptionId,
   };
 
   const [transaction, setTransaction] = useState<Transaction>(initialState);
