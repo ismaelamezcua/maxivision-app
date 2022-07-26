@@ -11,9 +11,11 @@ const subscriptionApiHandler = async (req: NextApiRequest, res: NextApiResponse)
       where: {
         id: parseInt(id as string),
       },
+      include: {
+        transactions: true,
+        serviceReports: true,
+      }
     });
-
-    console.log(subscription)
 
     subscription !== null
       ? res.status(200).json(subscription)

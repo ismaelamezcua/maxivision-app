@@ -10,12 +10,13 @@ import { Subscription, Transaction, ServiceReport } from '@/types';
 import Spinner from '@/components/Spinner';
 
 interface InputFieldProps {
-  label: string
-  type: string
-  name: string
-  value: string
-  disabled?: boolean
-  required?: boolean
+  label: string;
+  type: string;
+  name: string;
+  value: string;
+  disabled?: boolean;
+  required?: boolean;
+  onChange: () => void;
 }
 
 const InputField: FC<InputFieldProps> = (props) => {
@@ -25,7 +26,8 @@ const InputField: FC<InputFieldProps> = (props) => {
     name,
     value,
     disabled,
-    required
+    required,
+    onChange,
   } = props;
 
   return (
@@ -39,6 +41,7 @@ const InputField: FC<InputFieldProps> = (props) => {
           value={value}
           disabled={!disabled}
           required={!required}
+          onChange={onChange}
         />
       </div>
     </div>
@@ -50,8 +53,8 @@ const SubscriptionDetails: NextPage = () => {
   const { id } = router.query;
 
   const [subscription, setSubscription] = useState<Subscription>();
-  // const [transactions, setTransactions] = useState<Transaction[]>();
-  // const [serviceReports, setServiceReports] = useState<ServiceReport[]>();
+  const [transactions, setTransactions] = useState<Transaction[]>();
+  const [serviceReports, setServiceReports] = useState<ServiceReport[]>();
   const [isFetching, setIsFetching] = useState<boolean>(false);
   const [editMode, setEditMode] = useState<boolean>(false);
 
@@ -62,18 +65,22 @@ const SubscriptionDetails: NextPage = () => {
       .then(response => response.json())
       .then(data => {
         setSubscription(data as Subscription);
-        // setTransactions(data.transactions as Transaction[]);
-        // setServiceReports(data.serviceReports as ServiceReport[]);
+        setTransactions(data.transactions as Transaction[]);
+        setServiceReports(data.serviceReports as ServiceReport[]);
         setIsFetching(false);
       });
   }, []);
+
+  function handleChange(event) {
+    setSubscription({ ...subscription!, [event.target.name]: event.target.value });
+  }
 
   return (
     <>
       <Head>
         <title>Maxivision - Detalles de contrato</title>
       </Head>
-      <div className="container mx-auto max-w-6xl mt-6">
+      <div className="container mx-auto max-w-6xl my-6">
         <div className="flex flex-col space-y-6">
 
           <div className="flex flex-row justify-between items-center">
@@ -91,7 +98,7 @@ const SubscriptionDetails: NextPage = () => {
 
       </div>
 
-      <div className="container mx-auto max-w-6xl mt-6">
+      <div className="container mx-auto max-w-6xl my-6">
         <div className="bg-white p-6">
           {isFetching && (
             <>
@@ -111,6 +118,7 @@ const SubscriptionDetails: NextPage = () => {
                 name="createdAt"
                 value={new Date(subscription.createdAt!).toLocaleDateString()}
                 disabled={editMode}
+                onChange={handleChange}
               />
               <InputField
                 label="Última modificación"
@@ -118,6 +126,7 @@ const SubscriptionDetails: NextPage = () => {
                 name="updatedAt"
                 value={new Date(subscription.updatedAt!).toLocaleDateString()}
                 disabled={editMode}
+                onChange={handleChange}
               />
               <InputField
                 label="Dirección"
@@ -126,6 +135,7 @@ const SubscriptionDetails: NextPage = () => {
                 value={subscription.address}
                 disabled={editMode}
                 required
+                onChange={handleChange}
               />
               <InputField
                 label="Colonia"
@@ -134,6 +144,7 @@ const SubscriptionDetails: NextPage = () => {
                 value={subscription.suburb}
                 disabled={editMode}
                 required
+                onChange={handleChange}
               />
               <InputField
                 label="Identificador"
@@ -142,6 +153,7 @@ const SubscriptionDetails: NextPage = () => {
                 value={subscription.identifier}
                 disabled={editMode}
                 required
+                onChange={handleChange}
               />
               <InputField
                 label="Número de televisiones"
@@ -150,6 +162,7 @@ const SubscriptionDetails: NextPage = () => {
                 value={subscription.tvCount.toString()}
                 disabled={editMode}
                 required
+                onChange={handleChange}
               />
               <InputField
                 label="Estado del servicio"
@@ -158,6 +171,7 @@ const SubscriptionDetails: NextPage = () => {
                 value={subscription.status}
                 disabled={editMode}
                 required
+                onChange={handleChange}
               />
               <InputField
                 label="Número de medidor"
@@ -166,6 +180,7 @@ const SubscriptionDetails: NextPage = () => {
                 value={subscription.cfe!}
                 disabled={editMode}
                 required
+                onChange={handleChange}
               />
               <InputField
                 label="Observaciones"
@@ -174,6 +189,7 @@ const SubscriptionDetails: NextPage = () => {
                 value={subscription.remarks!}
                 disabled={editMode}
                 required
+                onChange={handleChange}
               />
               <div className="flex flex-row mt-6 justify-end">
                 {!editMode
@@ -212,10 +228,9 @@ const SubscriptionDetails: NextPage = () => {
             </>
           )}
 
-
-          {/* {transactions !== undefined && (
+          {transactions != undefined && (
             <h1 className="font-black">Transactions</h1>
-          )} */}
+          )}
         </div>
       </div>
     </>
