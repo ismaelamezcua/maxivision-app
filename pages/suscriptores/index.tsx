@@ -14,7 +14,7 @@ import NewSubscriberModal from '@/components/subscribers/NewSubscriberModal';
 
 import { Subscriber } from '@/types';
 
-import { UserAddIcon } from '@heroicons/react/outline';
+import { PlusIcon } from '@heroicons/react/outline';
 
 const Suscriptores: NextPage = () => {
   const [term, setTerm] = useState<string>('');
@@ -84,10 +84,13 @@ const Suscriptores: NextPage = () => {
         <div className="flex flex-col space-y-6">
 
           <div className="flex flex-row justify-between items-center">
-            <h1 className="text-3xl font-bold text-blue-600">Suscriptores</h1>
+            <h1 className="text-3xl font-bold text-slate-700">Suscriptores</h1>
 
-            <div className="bg-blue-600 hover:bg-blue-700 px-4 py-3 text-white inline-flex items-center" onClick={openModal}>
-              <UserAddIcon className="w-5 h-5" />
+            <div
+              className="bg-blue-600 hover:bg-blue-700 px-4 py-3 text-white inline-flex items-center cursor-pointer"
+              onClick={openModal}
+            >
+              <PlusIcon className="w-5 h-5" />
               <span className="ml-2">Agregar suscriptor</span>
             </div>
           </div>
