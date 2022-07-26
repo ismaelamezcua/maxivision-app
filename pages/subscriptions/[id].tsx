@@ -4,11 +4,12 @@ import { NextPage } from 'next';
 import Head from 'next/head';
 import { useRouter } from 'next/router';
 
-import { ChevronLeftIcon, PencilAltIcon, SaveIcon } from '@heroicons/react/outline';
+import { ChevronLeftIcon, PencilAltIcon, SaveIcon, PlusIcon } from '@heroicons/react/outline';
 
 import { Subscription, Transaction, ServiceReport } from '@/types';
 import Spinner from '@/components/Spinner';
-import TransactionsDetails from '@/components/subscriptions/TransactionsDetails';
+import TransactionsTable from '@/components/subscriptions/TransactionsTable';
+import NewTransactionModal from '@/components/subscriptions/NewTransactionModal';
 
 interface InputFieldProps {
   label: string;
@@ -58,6 +59,7 @@ const SubscriptionDetails: NextPage = () => {
   const [serviceReports, setServiceReports] = useState<ServiceReport[]>();
   const [isFetching, setIsFetching] = useState<boolean>(false);
   const [isDisabled, setIsDisabled] = useState<boolean>(true);
+  const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
 
   useEffect(() => {
     setIsFetching(true);
@@ -271,7 +273,38 @@ const SubscriptionDetails: NextPage = () => {
 
       <hr className="mt-6 max-w-6xl mx-auto border-2 border-gray-300" />
 
-      {transactions !== undefined && (<TransactionsDetails transactions={transactions} />)}
+      {transactions !== undefined && (
+        <>
+          <div className="container mx-auto max-w-6xl my-6">
+            <div className="flex flex-col space-y-6">
+
+              <div className="flex flex-row justify-between items-center">
+                <h1 className="text-3xl font-bold text-slate-600">Pagos</h1>
+
+                <div
+                  className="bg-blue-600 hover:bg-blue-700 px-4 py-3 text-white inline-flex items-center cursor-pointer"
+                  onClick={() => setIsModalOpen(true)}
+                >
+                  <PlusIcon className="w-5 h-5" />
+                  <span className="ml-2">Generar pago</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <NewTransactionModal
+            isModalOpen={isModalOpen}
+            closeModal={() => setIsModalOpen(false)}
+            subscriptionId={Number(id as string)}
+          />
+
+          <div className="container mx-auto max-w-6xl my-6">
+            <div className="bg-white p-6">
+              <TransactionsTable transactions={transactions} />
+            </div>
+          </div>
+        </>
+      )}
     </>
   );
 }
