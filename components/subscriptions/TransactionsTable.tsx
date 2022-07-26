@@ -16,16 +16,18 @@ const TransactionsTable: FC<{ transactions: Transaction[] }> = ({ transactions }
               <th>Tipo</th>
               <th>Costo</th>
               <th>Concepto</th>
+              <th>Recibo</th>
             </tr>
           </thead>
           <tbody>
-            {transactions.map(({ id, createdAt, type, price, concept }, index) => (
+            {transactions.map(({ id, createdAt, type, price, concept, receiptId }, index) => (
               <Link key={index} href={`/transactions/${id}`}>
                 <tr className="text-gray-600 border-b border-gray-200 hover:bg-gray-50 cursor-pointer">
-                  <td className="p-4 text-black">{createdAt}</td>
-                  <td>{type}</td>
+                  <td className="p-4">{new Date(createdAt!).toLocaleDateString()}</td>
+                  <td className="text-black">{type}</td>
                   <td>{price}</td>
                   <td>{concept}</td>
+                  <td>{receiptId}</td>
                 </tr>
               </Link>
             ))}
