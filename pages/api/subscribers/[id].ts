@@ -10,6 +10,9 @@ const subscriberApiHandler = async (req: NextApiRequest, res: NextApiResponse) =
     const subscriber = await prisma.subscriber.findUnique({
       where: {
         id: parseInt(id as string),
+      },
+      include: {
+        subscriptions: true,
       }
     });
 

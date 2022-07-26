@@ -5,7 +5,6 @@ import { useRouter } from 'next/router';
 import { FC, ReactElement, useEffect, useState, VoidFunctionComponent } from 'react';
 import { Subscriber, Subscription } from '@/types';
 import NewSubscriptionModal from '@/components/subscriptions/NewSubscriptionModal';
-import AppearTransition from '@/components/AppearTransition';
 import Spinner from '@/components/Spinner';
 import { ChevronLeftIcon, PencilAltIcon, PlusIcon, SaveIcon, XIcon } from '@heroicons/react/outline';
 import SubscriptionsTable from '@/components/subscriptions/SubscriptionsTable';
@@ -56,25 +55,13 @@ const SubscriberDetails: NextPage = () => {
       .then(response => response.json())
       .then(subscriber => {
         setSubscriber(subscriber);
+        setSubscriptions(subscriber.subscriptions)
         setIsLoading(false);
-      });
-
-    // Fetch subscriptions for subscriber
-    fetch('/api/subscriptions/search', {
-      method: 'POST',
-      body: JSON.stringify({ subscriberId: id }),
-      headers: {
-        'Content-Type': 'application/json'
-      }
-    })
-      .then(response => response.json())
-      .then(subscriptions => {
-        setSubscriptions(subscriptions)
       });
   }, []);
 
   function handleChange(event) {
-    setSubscriber({ ...subscriber, [event.target.name]: event.target.value });
+    setSubscriber({ ...subscriber!, [event.target.name]: event.target.value });
   }
 
   function handleSubmit(event) {
