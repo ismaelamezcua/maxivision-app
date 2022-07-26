@@ -1,11 +1,14 @@
 import { NextPage } from 'next';
 import Head from 'next/head';
+import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { FC, ReactElement, useEffect, useState, VoidFunctionComponent } from 'react';
 import { Subscriber, Subscription } from '@/types';
 import NewSubscriptionModal from '@/components/subscriptions/NewSubscriptionModal';
+import AppearTransition from '@/components/AppearTransition';
 import Spinner from '@/components/Spinner';
-import { ChevronLeftIcon, PencilAltIcon, PlusIcon, SaveIcon } from '@heroicons/react/outline';
+import { ChevronLeftIcon, PencilAltIcon, PlusIcon, SaveIcon, XIcon } from '@heroicons/react/outline';
+import SubscriptionsTable from '@/components/subscriptions/SubscriptionsTable';
 
 interface DetailsInputProps {
   label: string;
@@ -39,6 +42,7 @@ const DetailsInput: FC<DetailsInputProps> = (props): ReactElement => {
 
 const SubscriberDetails: NextPage = () => {
   const [subscriber, setSubscriber] = useState<Subscriber>();
+  const [subscriptions, setSubscriptions] = useState<Subscription[]>();
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [isFetching, setIsFetching] = useState<boolean>(false);
   const [editMode, setEditMode] = useState<boolean>(false);
@@ -47,11 +51,25 @@ const SubscriberDetails: NextPage = () => {
   const { id } = router.query;
 
   useEffect(() => {
+    // Fetch subscriber information
     fetch(`/api/subscribers/${id}`)
       .then(response => response.json())
       .then(subscriber => {
         setSubscriber(subscriber);
         setIsLoading(false);
+      });
+
+    // Fetch subscriptions for subscriber
+    fetch('/api/subscriptions/search', {
+      method: 'POST',
+      body: JSON.stringify({ subscriberId: id }),
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    })
+      .then(response => response.json())
+      .then(subscriptions => {
+        setSubscriptions(subscriptions)
       });
   }, []);
 
@@ -88,7 +106,7 @@ const SubscriberDetails: NextPage = () => {
         <div className="flex flex-col space-y-6">
 
           <div className="flex flex-row justify-between items-center">
-            <h1 className="text-3xl font-bold text-blue-600">Detalles de suscriptor</h1>
+            <h1 className="text-3xl font-bold text-sky-700">Detalles de suscriptor</h1>
 
             <div
               className="bg-blue-600 hover:bg-blue-700 px-4 py-3 text-white inline-flex items-center cursor-pointer"
@@ -158,11 +176,11 @@ const SubscriberDetails: NextPage = () => {
 
       <NewSubscriptionModal isModalOpen={newContractModal} closeModal={() => setNewContratModal(false)} subscriberId={parseInt(id as string)} />
 
-      <div className="container mx-auto max-w-6xl mt-6">
+      <div className="container mx-auto max-w-6xl my-6">
         <div className="flex flex-col space-y-6">
 
           <div className="flex flex-row justify-between items-center">
-            <h1 className="text-3xl font-bold text-blue-600">Contratos</h1>
+            <h1 className="text-3xl font-bold text-sky-700">Contratos</h1>
 
             <div
               className="bg-blue-600 hover:bg-blue-700 px-4 py-3 text-white inline-flex items-center cursor-pointer"
@@ -174,7 +192,9 @@ const SubscriberDetails: NextPage = () => {
           </div>
 
           <div className="bg-white p-6">
-            Contratos
+            {subscriptions !== undefined && subscriptions.length > 0 && (
+              <SubscriptionsTable subscriptions={subscriptions} />
+            )}
           </div>
         </div>
       </div>

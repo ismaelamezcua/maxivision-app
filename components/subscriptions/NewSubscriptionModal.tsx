@@ -174,7 +174,8 @@ const NewSubscriptionModal: FC<SubscriptionModalProps> = ({ isModalOpen, closeMo
                       className="form-input"
                       type="number"
                       name="tvCount"
-                      value={subscription.tvCount || 1}
+                      min="1"
+                      value={subscription.tvCount}
                       onChange={handleChange}
                     />
                   </div>
