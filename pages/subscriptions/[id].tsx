@@ -10,6 +10,7 @@ import { Subscription, Transaction, ServiceReport } from '@/types';
 import Spinner from '@/components/Spinner';
 import TransactionsTable from '@/components/subscriptions/TransactionsTable';
 import NewTransactionModal from '@/components/subscriptions/NewTransactionModal';
+import ReportsTable from '@/components/subscriptions/ReportsTable';
 
 interface InputFieldProps {
   label: string;
@@ -320,16 +321,15 @@ const SubscriptionDetails: NextPage = () => {
             </div>
           </div>
 
-          <NewTransactionModal
+          {/* <NewTransactionModal
             isModalOpen={isReportsModalOpen}
             closeModal={() => setIsReportsModalOpen(false)}
             subscriptionId={Number(id as string)}
           />
-
+ */}
           <div className="container mx-auto max-w-6xl my-6">
             <div className="bg-white p-6">
-              Reportes
-              {/* <TransactionsTable reports={reports} /> */}
+              <ReportsTable reports={serviceReports} />
             </div>
           </div>
         </>
