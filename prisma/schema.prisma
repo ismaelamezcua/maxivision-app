@@ -19,34 +19,40 @@ model Subscriber {
 }
 
 model Subscription {
-  id           Int         @id @default(autoincrement())
-  createdAt    DateTime    @default(now())
-  updatedAt    DateTime    @updatedAt
-  address      String
-  suburb       String
-  identifier   String      @default("Pendiente")
-  tvCount      Int         @default(1)
-  status       String      @default("Desconectado")
-  cfe          String?
-  remarks      String?
-  subscriberId Int?
-  Subscriber   Subscriber? @relation(fields: [subscriberId], references: [id])
+  id             Int              @id @default(autoincrement())
+  createdAt      DateTime         @default(now())
+  updatedAt      DateTime         @updatedAt
+  address        String
+  suburb         String
+  identifier     String           @default("Pendiente")
+  tvCount        Int              @default(1)
+  status         String           @default("Desconectado")
+  cfe            String?
+  remarks        String?
+  subscriberId   Int?
+  Subscriber     Subscriber?      @relation(fields: [subscriberId], references: [id])
+  Transactions   Transactions[]
+  ServiceReports ServiceReports[]
 }
 
 model Transactions {
-  id        Int      @id @default(autoincrement())
-  createdAt DateTime @default(now())
-  type      String
-  price     Float
-  concept   String
-  receiptId String?
+  id             Int           @id @default(autoincrement())
+  createdAt      DateTime      @default(now())
+  type           String
+  price          Float
+  concept        String
+  receiptId      String?
+  subscriptionId Int?
+  Subscription   Subscription? @relation(fields: [subscriptionId], references: [id])
 }
 
 model ServiceReports {
-  id          Int      @id @default(autoincrement())
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt
-  description String
-  status      String   @default("En progreso")
-  comments    String
+  id             Int           @id @default(autoincrement())
+  createdAt      DateTime      @default(now())
+  updatedAt      DateTime      @updatedAt
+  description    String
+  status         String        @default("En progreso")
+  comments       String
+  subscriptionId Int?
+  Subscription   Subscription? @relation(fields: [subscriptionId], references: [id])
 }
