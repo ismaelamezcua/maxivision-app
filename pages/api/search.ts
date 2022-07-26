@@ -16,10 +16,23 @@ async function searchApiHandler(req: NextApiRequest, res: NextApiResponse) {
 
     const subscribers = await prisma.subscriber.findMany({
       where: {
-        name: {
-          contains: term as string
-        }
-      }
+        OR: [
+          {
+            name: {
+              contains: term as string
+            }
+          },
+          {
+            spouse: {
+              contains: term as string
+            }
+          },
+        ],
+      },
+      orderBy: [
+        { name: 'desc' },
+        { spouse: 'desc' },
+      ],
     });
 
     res.status(201).json(subscribers);
