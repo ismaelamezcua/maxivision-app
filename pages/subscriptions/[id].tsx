@@ -8,6 +8,7 @@ import { ChevronLeftIcon, PencilAltIcon, SaveIcon } from '@heroicons/react/outli
 
 import { Subscription, Transaction, ServiceReport } from '@/types';
 import Spinner from '@/components/Spinner';
+import TransactionsDetails from '@/components/subscriptions/TransactionsDetails';
 
 interface InputFieldProps {
   label: string;
@@ -71,6 +72,26 @@ const SubscriptionDetails: NextPage = () => {
       });
   }, []);
 
+  function handleSubmit(event) {
+    event.preventDefault();
+    setIsFetching(true);
+
+    fetch(`/api/subscriptions/${id}`, {
+      method: 'PUT',
+      body: JSON.stringify(subscription),
+      headers: {
+        'content-type': 'application/json',
+      },
+    })
+      .then(response => response.json())
+      .then(updatedSubscription => {
+        // TODO: Show alert on updated subscription 
+        setSubscription(updatedSubscription);
+        setIsDisabled(true);
+        setIsFetching(false);
+      });
+  }
+
   function handleChange(event) {
     setSubscription({ ...subscription!, [event.target.name]: event.target.value });
   }
@@ -112,137 +133,129 @@ const SubscriptionDetails: NextPage = () => {
 
           {subscription !== undefined && (
             <>
-              <InputField
-                label="Fecha de creación"
-                type="text"
-                name="createdAt"
-                value={new Date(subscription.createdAt!).toLocaleDateString()}
-                disabled
-              />
-              <InputField
-                label="Última modificación"
-                type="text"
-                name="updatedAt"
-                value={new Date(subscription.updatedAt!).toLocaleDateString()}
-                disabled
-              />
-              <InputField
-                label="Dirección"
-                type="text"
-                name="address"
-                value={subscription.address}
-                disabled={isDisabled}
-                onChange={handleChange}
-                required
-              />
-              <InputField
-                label="Colonia"
-                type="text"
-                name="suburb"
-                value={subscription.suburb}
-                disabled={isDisabled}
-                onChange={handleChange}
-                required
-              />
-              <InputField
-                label="Identificador"
-                type="text"
-                name="identifier"
-                value={subscription.identifier}
-                disabled={isDisabled}
-                onChange={handleChange}
-                required
-              />
-              <InputField
-                label="Número de televisiones"
-                type="number"
-                name="tvCount"
-                value={subscription.tvCount.toString()}
-                disabled={isDisabled}
-                onChange={handleChange}
-                required
-              />
-              <InputField
-                label="Estado del servicio"
-                type="text"
-                name="status"
-                value={subscription.status}
-                disabled={isDisabled}
-                onChange={handleChange}
-                required
-              />
+              <form onSubmit={handleSubmit}>
+                <InputField
+                  label="Fecha de creación"
+                  type="text"
+                  name="createdAt"
+                  value={new Date(subscription.createdAt!).toLocaleDateString()}
+                  disabled
+                />
+                <InputField
+                  label="Última modificación"
+                  type="text"
+                  name="updatedAt"
+                  value={new Date(subscription.updatedAt!).toLocaleDateString()}
+                  disabled
+                />
+                <InputField
+                  label="Dirección"
+                  type="text"
+                  name="address"
+                  value={subscription.address}
+                  disabled={isDisabled}
+                  onChange={handleChange}
+                  required
+                />
+                <InputField
+                  label="Colonia"
+                  type="text"
+                  name="suburb"
+                  value={subscription.suburb}
+                  disabled={isDisabled}
+                  onChange={handleChange}
+                  required
+                />
+                <InputField
+                  label="Identificador"
+                  type="text"
+                  name="identifier"
+                  value={subscription.identifier}
+                  disabled={isDisabled}
+                  onChange={handleChange}
+                />
+                <InputField
+                  label="Número de televisiones"
+                  type="number"
+                  name="tvCount"
+                  value={subscription.tvCount.toString()}
+                  disabled={isDisabled}
+                  onChange={handleChange}
+                  required
+                />
 
-              <div className="flex space-x-8 w-full items-center mb-6">
-                <div className="basis-1/4 text-right">Estado del servicio</div>
-                <div className="flex-grow">
-                  <select
-                    className="form-input"
-                    name="status"
-                    value={subscription.status}
-                    disabled={isDisabled}
-                    onChange={handleChange}
-                  >
-                    <option value="Conectado">Conectado</option>
-                    <option value="Desconectado">Desconectado</option>
-                    <option value="Suspendido">Suspendido</option>
-                    <option value="Suspendido Temporal">Suspendido Temporal</option>
-                    <option value="Cancelado">Cancelado</option>
-                  </select>
-                </div>
-              </div>
-
-              <InputField
-                label="Número de medidor"
-                type="text"
-                name="cfe"
-                value={subscription.cfe!}
-                disabled={isDisabled}
-                onChange={handleChange}
-                required
-              />
-              <InputField
-                label="Observaciones"
-                type="text"
-                name="remarks"
-                value={subscription.remarks!}
-                disabled={isDisabled}
-                onChange={handleChange}
-                required
-              />
-              <div className="flex flex-row mt-6 justify-end">
-                {isDisabled
-                  ? (
-                    <div
-                      className="px-4 py-3 text-gray-800 border border-gray-400 hover:bg-gray-100 cursor-pointer inline-flex items-center"
-                      onClick={() => setIsDisabled(!isDisabled)}
+                <div className="flex space-x-8 w-full items-center mb-6">
+                  <div className="basis-1/4 text-right">Estado del servicio</div>
+                  <div className="flex-grow">
+                    <select
+                      className="form-input"
+                      name="status"
+                      value={subscription.status}
+                      disabled={isDisabled}
+                      onChange={handleChange}
+                      required
                     >
-                      <PencilAltIcon className="w-5 h-5" />
-                      <span className="ml-2">Editar suscriptor</span>
-                    </div>
-                  )
-                  : isFetching
-                    ? (
-                      <button
-                        disabled={true}
-                        type="submit"
-                        className="bg-gray-200 px-4 py-3 text-gray-400 inline-flex items-center"
-                      >
-                        <Spinner />
-                        <span className="ml-2">Guardando cambios</span>
-                      </button>
+                      <option value="Conectado">Conectado</option>
+                      <option value="Desconectado">Desconectado</option>
+                      <option value="Suspendido">Suspendido</option>
+                      <option value="Suspendido Temporal">Suspendido Temporal</option>
+                      <option value="Cancelado">Cancelado</option>
+                    </select>
+                  </div>
+                </div>
 
-                    )
-                    : (
-                      <button
-                        type="submit"
-                        className="bg-blue-600 hover:bg-blue-700 px-4 py-3 text-white inline-flex items-center"
+                <InputField
+                  label="Número de medidor"
+                  type="text"
+                  name="cfe"
+                  value={subscription.cfe!}
+                  disabled={isDisabled}
+                  onChange={handleChange}
+                />
+                <InputField
+                  label="Observaciones"
+                  type="text"
+                  name="remarks"
+                  value={subscription.remarks!}
+                  disabled={isDisabled}
+                  onChange={handleChange}
+                />
+
+                <div className="flex flex-row mt-6 justify-end">
+                  {isDisabled
+                    ? (
+                      <div
+                        className="px-4 py-3 text-gray-800 border border-gray-400 hover:bg-gray-100 cursor-pointer inline-flex items-center"
+                        onClick={() => setIsDisabled(!isDisabled)}
                       >
-                        <SaveIcon className="w-5 h-5" />
-                        <span className="ml-2">Guardar cambios</span>
-                      </button>
+                        <PencilAltIcon className="w-5 h-5" />
+                        <span className="ml-2">Editar contrato</span>
+                      </div>
                     )
-                }
-              </div>
+                    : isFetching
+                      ? (
+                        <button
+                          disabled={true}
+                          type="submit"
+                          className="bg-gray-200 px-4 py-3 text-gray-400 inline-flex items-center"
+                        >
+                          <Spinner />
+                          <span className="ml-2">Guardando cambios</span>
+                        </button>
+
+                      )
+                      : (
+                        <button
+                          type="submit"
+                          className="bg-blue-600 hover:bg-blue-700 px-4 py-3 text-white inline-flex items-center"
+                        >
+                          <SaveIcon className="w-5 h-5" />
+                          <span className="ml-2">Guardar cambios</span>
+                        </button>
+                      )
+                  }
+                </div>
+              </form>
             </>
           )}
 
@@ -255,6 +268,10 @@ const SubscriptionDetails: NextPage = () => {
           )}
         </div>
       </div>
+
+      <hr className="mt-6 max-w-6xl mx-auto border-2 border-gray-300" />
+
+      {transactions !== undefined && (<TransactionsDetails transactions={transactions} />)}
     </>
   );
 }
