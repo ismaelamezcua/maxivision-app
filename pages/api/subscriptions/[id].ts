@@ -41,7 +41,7 @@ const subscriptionApiHandler = async (req: NextApiRequest, res: NextApiResponse)
         address,
         suburb,
         identifier,
-        tvCount,
+        tvCount: Number(tvCount),
         status,
         cfe,
         remarks,
