@@ -22,8 +22,8 @@ const DetailsInput: FC<DetailsInputProps> = (props): ReactElement => {
   const { label, name, value, disabled, optional, onChange } = props;
 
   return (
-    <div className="flex space-x-4 w-full items-center mb-6">
-      <div className="basis-1/4">{label}</div>
+    <div className="flex space-x-8 w-full items-center mb-6">
+      <div className="basis-1/4 text-right">{label}</div>
       <div className="flex-grow">
         <input
           className="form-input"

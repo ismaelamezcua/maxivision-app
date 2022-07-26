@@ -6,7 +6,7 @@ import { useRouter } from 'next/router';
 
 import { ChevronLeftIcon } from '@heroicons/react/outline';
 
-import { Subscription } from '@/types';
+import { Subscription, Transaction, ServiceReport } from '@/types';
 import Spinner from '@/components/Spinner';
 
 const SubscriptionDetails: NextPage = () => {
@@ -14,6 +14,8 @@ const SubscriptionDetails: NextPage = () => {
   const { id } = router.query;
 
   const [subscription, setSubscription] = useState<Subscription>();
+  const [transactions, setTransactions] = useState<Transaction[]>();
+  const [serviceReports, setServiceReports] = useState<ServiceReport[]>();
   const [isFetching, setIsFetching] = useState<boolean>(false);
 
   useEffect(() => {
@@ -23,6 +25,8 @@ const SubscriptionDetails: NextPage = () => {
       .then(response => response.json())
       .then(data => {
         setSubscription(data as Subscription);
+        setTransactions(data.transactions as Transaction[]);
+        setServiceReports(data.serviceReports as ServiceReport[]);
         setIsFetching(false);
       });
   }, []);
@@ -79,7 +83,10 @@ const SubscriptionDetails: NextPage = () => {
               </div>
             </>
           )}
-          Detalles
+        
+          {transactions !== undefined && (
+            <h1 className="font-black">Transactions</h1>
+          )}
         </div>
       </div>
     </>

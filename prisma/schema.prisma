@@ -19,40 +19,40 @@ model Subscriber {
 }
 
 model Subscription {
-  id             Int              @id @default(autoincrement())
-  createdAt      DateTime         @default(now())
-  updatedAt      DateTime         @updatedAt
+  id             Int             @id @default(autoincrement())
+  createdAt      DateTime        @default(now())
+  updatedAt      DateTime        @updatedAt
   address        String
   suburb         String
-  identifier     String           @default("Pendiente")
-  tvCount        Int              @default(1)
-  status         String           @default("Desconectado")
+  identifier     String          @default("Pendiente")
+  tvCount        Int             @default(1)
+  status         String          @default("Desconectado")
   cfe            String?
   remarks        String?
+  transactions   Transaction[]
+  serviceReports ServiceReport[]
+  Subscriber     Subscriber?     @relation(fields: [subscriberId], references: [id])
   subscriberId   Int?
-  Subscriber     Subscriber?      @relation(fields: [subscriberId], references: [id])
-  Transactions   Transactions[]
-  ServiceReports ServiceReports[]
 }
 
-model Transactions {
+model Transaction {
   id             Int           @id @default(autoincrement())
   createdAt      DateTime      @default(now())
   type           String
   price          Float
   concept        String
   receiptId      String?
-  subscriptionId Int?
   Subscription   Subscription? @relation(fields: [subscriptionId], references: [id])
+  subscriptionId Int?
 }
 
-model ServiceReports {
+model ServiceReport {
   id             Int           @id @default(autoincrement())
   createdAt      DateTime      @default(now())
   updatedAt      DateTime      @updatedAt
   description    String
   status         String        @default("En progreso")
   comments       String
-  subscriptionId Int?
   Subscription   Subscription? @relation(fields: [subscriptionId], references: [id])
+  subscriptionId Int?
 }

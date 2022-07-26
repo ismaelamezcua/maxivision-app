@@ -10,8 +10,13 @@ const subscriptionApiHandler = async (req: NextApiRequest, res: NextApiResponse)
     const subscription = await prisma.subscription.findUnique({
       where: {
         id: parseInt(id as string),
+      },
+      include: {
+        serviceReports: true
       }
     });
+
+    console.log(subscription)
 
     subscription !== null
       ? res.status(200).json(subscription)
