@@ -59,7 +59,8 @@ const SubscriptionDetails: NextPage = () => {
   const [serviceReports, setServiceReports] = useState<ServiceReport[]>();
   const [isFetching, setIsFetching] = useState<boolean>(false);
   const [isDisabled, setIsDisabled] = useState<boolean>(true);
-  const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
+  const [isTransactionsModalOpen, setIsTransactionsModalOpen] = useState<boolean>(false);
+  const [isReportsModalOpen, setIsReportsModalOpen] = useState<boolean>(false);
 
   useEffect(() => {
     setIsFetching(true);
@@ -260,14 +261,6 @@ const SubscriptionDetails: NextPage = () => {
               </form>
             </>
           )}
-
-          {transactions != undefined && (
-            <h1 className="font-black">Transactions</h1>
-          )}
-
-          {serviceReports != undefined && (
-            <h1 className="text-2xl">Reportes de servicio</h1>
-          )}
         </div>
       </div>
 
@@ -283,7 +276,7 @@ const SubscriptionDetails: NextPage = () => {
 
                 <div
                   className="bg-blue-600 hover:bg-blue-700 px-4 py-3 text-white inline-flex items-center cursor-pointer"
-                  onClick={() => setIsModalOpen(true)}
+                  onClick={() => setIsTransactionsModalOpen(true)}
                 >
                   <PlusIcon className="w-5 h-5" />
                   <span className="ml-2">Generar pago</span>
@@ -293,14 +286,50 @@ const SubscriptionDetails: NextPage = () => {
           </div>
 
           <NewTransactionModal
-            isModalOpen={isModalOpen}
-            closeModal={() => setIsModalOpen(false)}
+            isModalOpen={isTransactionsModalOpen}
+            closeModal={() => setIsTransactionsModalOpen(false)}
             subscriptionId={Number(id as string)}
           />
 
           <div className="container mx-auto max-w-6xl my-6">
             <div className="bg-white p-6">
               <TransactionsTable transactions={transactions} />
+            </div>
+          </div>
+        </>
+      )}
+
+      <hr className="mt-6 max-w-6xl mx-auto border-2 border-gray-300" />
+
+      {serviceReports !== undefined && (
+        <>
+          <div className="container mx-auto max-w-6xl my-6">
+            <div className="flex flex-col space-y-6">
+
+              <div className="flex flex-row justify-between items-center">
+                <h1 className="text-3xl font-bold text-slate-600">Reportes de servicio</h1>
+
+                <div
+                  className="bg-blue-600 hover:bg-blue-700 px-4 py-3 text-white inline-flex items-center cursor-pointer"
+                  onClick={() => setIsReportsModalOpen(true)}
+                >
+                  <PlusIcon className="w-5 h-5" />
+                  <span className="ml-2">Generar reporte</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <NewTransactionModal
+            isModalOpen={isReportsModalOpen}
+            closeModal={() => setIsReportsModalOpen(false)}
+            subscriptionId={Number(id as string)}
+          />
+
+          <div className="container mx-auto max-w-6xl my-6">
+            <div className="bg-white p-6">
+              Reportes
+              {/* <TransactionsTable reports={reports} /> */}
             </div>
           </div>
         </>
