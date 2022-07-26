@@ -1,7 +1,5 @@
 import { FC, ReactElement } from 'react';
 
-import Link from 'next/link';
-
 import { Transaction } from '@/types';
 import AppearTransition from '@/components/AppearTransition';
 
@@ -21,15 +19,13 @@ const TransactionsTable: FC<{ transactions: Transaction[] }> = ({ transactions }
           </thead>
           <tbody>
             {transactions.map(({ id, createdAt, type, price, concept, receiptId }, index) => (
-              <Link key={index} href={`/transactions/${id}`}>
-                <tr className="text-gray-600 border-b border-gray-200 hover:bg-gray-50 cursor-pointer">
-                  <td className="p-4">{new Date(createdAt!).toLocaleDateString()}</td>
-                  <td className="text-black">{type}</td>
-                  <td>{price}</td>
-                  <td>{concept}</td>
-                  <td>{receiptId}</td>
-                </tr>
-              </Link>
+              <tr key={index} className="text-gray-600 border-b border-gray-200 hover:bg-gray-50">
+                <td className="p-4">{new Date(createdAt!).toLocaleDateString()}</td>
+                <td className="text-black">{type}</td>
+                <td>{price}</td>
+                <td>{concept}</td>
+                <td>{receiptId}</td>
+              </tr>
             ))}
           </tbody>
         </table>
