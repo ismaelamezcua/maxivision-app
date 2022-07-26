@@ -182,13 +182,18 @@ const NewSubscriptionModal: FC<SubscriptionModalProps> = ({ isModalOpen, closeMo
 
                   <div className="form-field mt-6">
                     <label htmlFor="status" className="form-label">Estado <span className="text-gray-500">(Desconectado por defecto)</span></label>
-                    <input
+                    <select
                       className="form-input"
-                      type="text"
                       name="status"
-                      value={subscription.status || 'Desconectado'}
+                      value={subscription.status}
                       onChange={handleChange}
-                    />
+                    >
+                      <option value="Conectado">Conectado</option>
+                      <option value="Desconectado" selected>Desconectado</option>
+                      <option value="Suspendido">Suspendido</option>
+                      <option value="Suspendido Temporal">Suspendido Temporal</option>
+                      <option value="Cancelado">Cancelado</option>
+                    </select>
                   </div>
 
                   <div className="form-field mt-6">
