@@ -3,6 +3,7 @@ import {
   ReactElement,
   Fragment,
   useState,
+  FormEvent,
 } from 'react';
 
 import { useRouter } from 'next/router';
@@ -40,16 +41,17 @@ const NewSubscriptionModal: FC<SubscriptionModalProps> = ({ isModalOpen, closeMo
   const [isFetching, setIsFetching] = useState<boolean>(false);
   const [showAlert, setShowAlert] = useState<boolean>(false);
 
-  function handleChange(event) {
-    setSubscription({ ...subscription, [event.target.name]: event.target.value });
+  function handleChange(event: FormEvent) {
+    const target = event.target as HTMLInputElement;
+    setSubscription({ ...subscription, [target.name]: target.value });
   }
 
-  function handleReset(event) {
+  function handleReset(event: FormEvent) {
     event.preventDefault();
     setSubscription(initialState);
   }
 
-  function handleSubmit(event) {
+  function handleSubmit(event: FormEvent) {
     event.preventDefault();
     /* POST request for contract creation */
     const requestOptions = {

@@ -1,4 +1,4 @@
-import { FC, useEffect, useState } from 'react';
+import { FC, FormEvent, useEffect, useState } from 'react';
 
 import { NextPage } from 'next';
 import Head from 'next/head';
@@ -20,7 +20,7 @@ interface InputFieldProps {
   value: string;
   disabled?: boolean;
   required?: boolean;
-  onChange?: () => void;
+  onChange?: (event: FormEvent<Element>) => void;
 }
 
 const InputField: FC<InputFieldProps> = (props) => {
@@ -77,7 +77,7 @@ const SubscriptionDetails: NextPage = () => {
       });
   }, []);
 
-  function handleSubmit(event) {
+  function handleSubmit(event: FormEvent) {
     event.preventDefault();
     setIsFetching(true);
 
@@ -97,8 +97,9 @@ const SubscriptionDetails: NextPage = () => {
       });
   }
 
-  function handleChange(event) {
-    setSubscription({ ...subscription!, [event.target.name]: event.target.value });
+  function handleChange(event: FormEvent) {
+    const target = event.target as HTMLInputElement;
+    setSubscription({ ...subscription!, [target.name]: target.value });
   }
 
   return (

@@ -3,6 +3,7 @@ import {
   ReactElement,
   Fragment,
   useState,
+  FormEvent,
 } from 'react';
 
 import Router from 'next/router';
@@ -36,16 +37,17 @@ const NewTransactionModal: FC<TransactionModalProps> = ({ isModalOpen, closeModa
   const [isFetching, setIsFetching] = useState<boolean>(false);
   const [showAlert, setShowAlert] = useState<boolean>(false);
 
-  function handleChange(event) {
-    setTransaction({ ...transaction!, [event.target.name]: event.target.value });
+  function handleChange(event: FormEvent) {
+    const target = event.target as HTMLInputElement;
+    setTransaction({ ...transaction!, [target.name]: target.value });
   }
 
-  function handleReset(event) {
+  function handleReset(event: FormEvent) {
     event.preventDefault();
     setTransaction(initialState);
   }
 
-  function handleSubmit(event) {
+  function handleSubmit(event: FormEvent) {
     event.preventDefault();
     /* POST request for transaction creation */
     const requestOptions = {
