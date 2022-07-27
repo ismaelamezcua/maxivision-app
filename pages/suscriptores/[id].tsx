@@ -2,7 +2,7 @@ import { NextPage } from 'next';
 import Head from 'next/head';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
-import { FC, ReactElement, useEffect, useState, VoidFunctionComponent } from 'react';
+import { FC, FormEvent, ReactElement, useEffect, useState, VoidFunctionComponent } from 'react';
 import { Subscriber, Subscription } from '@/types';
 import NewSubscriptionModal from '@/components/subscriptions/NewSubscriptionModal';
 import Spinner from '@/components/Spinner';
@@ -14,8 +14,8 @@ interface DetailsInputProps {
   name: string;
   value: string;
   disabled: boolean;
-  optional: boolean;
-  onChange: () => void;
+  optional?: boolean;
+  onChange?: (event: FormEvent<Element>) => void;
 };
 
 const DetailsInput: FC<DetailsInputProps> = (props): ReactElement => {
@@ -60,11 +60,12 @@ const SubscriberDetails: NextPage = () => {
       });
   }, []);
 
-  function handleChange(event) {
-    setSubscriber({ ...subscriber!, [event.target.name]: event.target.value });
+  function handleChange(event: FormEvent) {
+    const target = event.target as HTMLInputElement;
+    setSubscriber({ ...subscriber!, [target.name]: target.value });
   }
 
-  function handleSubmit(event) {
+  function handleSubmit(event: FormEvent) {
     event.preventDefault();
     setIsFetching(true);
 
@@ -89,11 +90,11 @@ const SubscriberDetails: NextPage = () => {
       <Head>
         <title>Maxivision - Detalles de suscriptor</title>
       </Head>
-      <div className="container mx-auto max-w-6xl mt-6">
+      <div className="container mx-auto max-w-6xl mt-6 mb-12">
         <div className="flex flex-col space-y-6">
 
           <div className="flex flex-row justify-between items-center">
-            <h1 className="text-3xl font-bold text-sky-700">Detalles de suscriptor</h1>
+            <h1 className="text-3xl font-bold text-slate-700">Detalles de suscriptor</h1>
 
             <div
               className="bg-blue-600 hover:bg-blue-700 px-4 py-3 text-white inline-flex items-center cursor-pointer"
@@ -104,7 +105,7 @@ const SubscriberDetails: NextPage = () => {
             </div>
           </div>
 
-          <div className="bg-white p-6">
+          <div className="bg-white p-6 shadow-md">
             {isLoading && (
               <h1 className="font-bold">Loading data...</h1>
             )}
@@ -159,15 +160,13 @@ const SubscriberDetails: NextPage = () => {
         </div>
       </div>
 
-      <hr className="mt-6 max-w-6xl mx-auto border-2 border-gray-300" />
-
       <NewSubscriptionModal isModalOpen={newContractModal} closeModal={() => setNewContratModal(false)} subscriberId={parseInt(id as string)} />
 
-      <div className="container mx-auto max-w-6xl my-6">
+      <div className="container mx-auto max-w-6xl mt-6 mb-12">
         <div className="flex flex-col space-y-6">
 
           <div className="flex flex-row justify-between items-center">
-            <h1 className="text-3xl font-bold text-sky-700">Contratos</h1>
+            <h1 className="text-3xl font-bold text-slate-700">Contratos</h1>
 
             <div
               className="bg-blue-600 hover:bg-blue-700 px-4 py-3 text-white inline-flex items-center cursor-pointer"
@@ -178,7 +177,7 @@ const SubscriberDetails: NextPage = () => {
             </div>
           </div>
 
-          <div className="bg-white p-6">
+          <div className="bg-white p-6 shadow-md">
             {subscriptions !== undefined && subscriptions.length > 0 && (
               <SubscriptionsTable subscriptions={subscriptions} />
             )}

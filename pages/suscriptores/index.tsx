@@ -95,7 +95,7 @@ const Suscriptores: NextPage = () => {
             </div>
           </div>
 
-          <div className="bg-white p-6">
+          <div className="bg-white p-6 shadow-md">
             <div className="mx-auto max-w-2xl">
               <SearchInput
                 searchTerm={term}
