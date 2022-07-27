@@ -1,0 +1,58 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = "file:./maxivision.db"
+}
+
+model Subscriber {
+  id            Int            @id @default(autoincrement())
+  createdAt     DateTime       @default(now())
+  name          String
+  email         String?
+  phone         String
+  rfc           String?
+  spouse        String?
+  subscriptions Subscription[]
+}
+
+model Subscription {
+  id             Int             @id @default(autoincrement())
+  createdAt      DateTime        @default(now())
+  updatedAt      DateTime        @updatedAt
+  address        String
+  suburb         String
+  identifier     String          @default("Pendiente")
+  tvCount        Int             @default(1)
+  status         String          @default("Desconectado") // Contectado, Desconectado, Suspendido, Suspendido Temporal, Cancelado
+  cfe            String?
+  remarks        String?
+  transactions   Transaction[]
+  serviceReports ServiceReport[]
+  Subscriber     Subscriber?     @relation(fields: [subscriberId], references: [id])
+  subscriberId   Int?
+}
+
+model Transaction {
+  id             Int           @id @default(autoincrement())
+  createdAt      DateTime      @default(now())
+  type           String // Mensualidad, Cambio de domicilio, Suspension, Suspension Temporal, Cancelacion
+  price          Float
+  concept        String
+  receiptId      String?
+  Subscription   Subscription? @relation(fields: [subscriptionId], references: [id])
+  subscriptionId Int?
+}
+
+model ServiceReport {
+  id             Int           @id @default(autoincrement())
+  createdAt      DateTime      @default(now())
+  updatedAt      DateTime      @updatedAt
+  description    String
+  status         String        @default("En progreso") // Completado, En progreso, En espera
+  comments       String
+  Subscription   Subscription? @relation(fields: [subscriptionId], references: [id])
+  subscriptionId Int?
+}
