@@ -1,7 +1,9 @@
 import type { FC, ReactElement } from 'react';
+
 import Link from 'next/link';
 import { useRouter } from 'next/router';
-import { ClipboardListIcon, CreditCardIcon, ExclamationIcon, PencilAltIcon, UsersIcon } from '@heroicons/react/outline';
+
+import { CreditCardIcon, UsersIcon } from '@heroicons/react/outline';
 
 const Navbar: FC = (): ReactElement => {
   const router = useRouter();
@@ -9,33 +11,15 @@ const Navbar: FC = (): ReactElement => {
   const menuEntries = [
     {
       label: 'Suscriptores',
-      href: '/suscriptores',
+      href: '/subscribers',
       description: 'Busca y agrega suscriptores',
       icon: <UsersIcon className="w-6 h-6" />
     },
     {
-      label: 'Contratos',
-      href: '/contratos',
-      description: 'Muestra detalles de contratos',
-      icon: <PencilAltIcon className="w-6 h-6" />
-    },
-    {
       label: 'Movimientos',
-      href: '/movimientos',
-      description: 'Realiza pagos',
+      href: '/transactions',
+      description: 'Revisa las ventas diarias',
       icon: <CreditCardIcon className="w-6 h-6" />
-    },
-    {
-      label: 'Reportes',
-      href: '/reportes-servicio',
-      description: 'Muestra reportes de servicios',
-      icon: <ExclamationIcon className="w-6 h-6" />
-    },
-    {
-      label: 'Reporte de movimientos',
-      href: '/reporte-movimientos',
-      description: 'Muestra reportes de movimientos por dia',
-      icon: <ClipboardListIcon className="w-6 h-6" />
     },
   ];
 
@@ -61,9 +45,7 @@ const Navbar: FC = (): ReactElement => {
             ))}
           </div>
         </div>
-
       </div>
-
     </div>
   );
 }

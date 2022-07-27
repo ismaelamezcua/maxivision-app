@@ -46,7 +46,7 @@ const ResultsTable: FC<TableProps> = (props): ReactElement => {
           </thead>
           <tbody>
             {subscribers.map(({ id, name, email, phone, rfc, spouse }, index) => (
-              <Link key={index} href={`/suscriptores/${id}`}>
+              <Link key={index} href={`/subscribers/${id}`}>
                 <tr className="text-gray-600 border-b border-gray-200 hover:bg-gray-50 cursor-pointer">
                   <td className="p-4 text-black">{name}</td>
                   <td>{email}</td>
