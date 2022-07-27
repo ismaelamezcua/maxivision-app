@@ -27,7 +27,6 @@ const TransactionsPage: NextPage = () => {
       .then(response => response.json())
       .then(results => {
         setResults(results);
-        console.log(results);
       });
   }
 
