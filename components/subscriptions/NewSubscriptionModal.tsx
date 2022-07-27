@@ -5,15 +5,16 @@ import {
   useState,
 } from 'react';
 
+import { useRouter } from 'next/router';
+
 import { Transition, Dialog } from '@headlessui/react';
 import {
   XIcon,
   TrashIcon,
-  UserAddIcon,
   PlusIcon,
 } from '@heroicons/react/outline';
 
-import type { Subscription, Subscriber } from '@/types';
+import type { Subscription } from '@/types';
 import Spinner from '@/components/Spinner';
 
 interface SubscriptionModalProps {
@@ -34,6 +35,7 @@ const NewSubscriptionModal: FC<SubscriptionModalProps> = ({ isModalOpen, closeMo
     subscriberId,
   };
 
+  const router = useRouter();
   const [subscription, setSubscription] = useState<Subscription>(initialState);
   const [isFetching, setIsFetching] = useState<boolean>(false);
   const [showAlert, setShowAlert] = useState<boolean>(false);
@@ -67,7 +69,11 @@ const NewSubscriptionModal: FC<SubscriptionModalProps> = ({ isModalOpen, closeMo
         /* Clean the form */
         handleReset(event);
         setShowAlert(true);
-        setTimeout(() => setShowAlert(false), 3000);
+        setTimeout(() => {
+          setShowAlert(false)
+          closeModal();
+          router.reload();
+        }, 3000);
       });
   }
 

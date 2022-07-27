@@ -5,6 +5,8 @@ import {
   useState,
 } from 'react';
 
+import Router from 'next/router';
+
 import { Transition, Dialog } from '@headlessui/react';
 import {
   XIcon,
@@ -63,7 +65,11 @@ const NewTransactionModal: FC<TransactionModalProps> = ({ isModalOpen, closeModa
         /* Clean the form */
         handleReset(event);
         setShowAlert(true);
-        setTimeout(() => setShowAlert(false), 3000);
+        setTimeout(() => {
+          setShowAlert(false)
+          closeModal();
+          Router.reload();
+        }, 3000);
       });
   }
 
