@@ -11,6 +11,7 @@ import Spinner from '@/components/Spinner';
 import TransactionsTable from '@/components/subscriptions/TransactionsTable';
 import NewTransactionModal from '@/components/subscriptions/NewTransactionModal';
 import ReportsTable from '@/components/subscriptions/ReportsTable';
+import NewServiceReportModal from '@/components/subscriptions/NewServiceReportModal';
 
 interface InputFieldProps {
   label: string;
@@ -123,7 +124,7 @@ const SubscriptionDetails: NextPage = () => {
 
       </div>
 
-      <div className="container mx-auto max-w-6xl my-6">
+      <div className="container mx-auto max-w-6xl mt-6 mb-12 shadow-md">
         <div className="bg-white p-6">
           {isFetching && (
             <>
@@ -265,8 +266,6 @@ const SubscriptionDetails: NextPage = () => {
         </div>
       </div>
 
-      <hr className="mt-6 max-w-6xl mx-auto border-2 border-gray-300" />
-
       {transactions !== undefined && (
         <>
           <div className="container mx-auto max-w-6xl my-6">
@@ -292,15 +291,13 @@ const SubscriptionDetails: NextPage = () => {
             subscriptionId={Number(id as string)}
           />
 
-          <div className="container mx-auto max-w-6xl my-6">
+          <div className="container mx-auto max-w-6xl mt-6 mb-12 shadow-md">
             <div className="bg-white p-6">
               <TransactionsTable transactions={transactions} />
             </div>
           </div>
         </>
       )}
-
-      <hr className="mt-6 max-w-6xl mx-auto border-2 border-gray-300" />
 
       {serviceReports !== undefined && (
         <>
@@ -321,13 +318,13 @@ const SubscriptionDetails: NextPage = () => {
             </div>
           </div>
 
-          {/* <NewTransactionModal
+          <NewServiceReportModal
             isModalOpen={isReportsModalOpen}
             closeModal={() => setIsReportsModalOpen(false)}
             subscriptionId={Number(id as string)}
           />
- */}
-          <div className="container mx-auto max-w-6xl my-6">
+
+          <div className="container mx-auto max-w-6xl my-6 shadow-md">
             <div className="bg-white p-6">
               <ReportsTable reports={serviceReports} />
             </div>
