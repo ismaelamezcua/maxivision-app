@@ -12,8 +12,16 @@ const subscriptionApiHandler = async (req: NextApiRequest, res: NextApiResponse)
         id: parseInt(id as string),
       },
       include: {
-        transactions: true,
-        serviceReports: true,
+        transactions: {
+          orderBy: {
+            createdAt: 'desc',
+          },
+        },
+        serviceReports: {
+          orderBy: {
+            createdAt: 'desc',
+          },
+        },
       }
     });
 
