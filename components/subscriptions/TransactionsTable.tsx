@@ -2,6 +2,8 @@ import { FC, ReactElement } from 'react';
 
 import { Transaction } from '@/types';
 import AppearTransition from '@/components/AppearTransition';
+import Link from 'next/link';
+import { PrinterIcon } from '@heroicons/react/outline';
 
 const TransactionsTable: FC<{ transactions: Transaction[] }> = ({ transactions }): ReactElement => {
   return (
@@ -15,6 +17,7 @@ const TransactionsTable: FC<{ transactions: Transaction[] }> = ({ transactions }
               <th>Costo</th>
               <th>Concepto</th>
               <th>Recibo</th>
+              <th></th>
             </tr>
           </thead>
           <tbody>
@@ -25,6 +28,13 @@ const TransactionsTable: FC<{ transactions: Transaction[] }> = ({ transactions }
                 <td>{price}</td>
                 <td>{concept}</td>
                 <td>{receiptId}</td>
+                <td>
+                  <Link href={`/transactions/${id}`}>
+                    <a>
+                      <PrinterIcon className="w-5 h-5" />
+                    </a>
+                  </Link>
+                </td>
               </tr>
             ))}
           </tbody>

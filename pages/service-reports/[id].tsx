@@ -65,6 +65,7 @@ const ServiceReportDetail: NextPage = () => {
         setServiceReport(data as ServiceReport);
         setIsFetching(false);
       });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   function handleSubmit(event: FormEvent) {
