@@ -24,7 +24,7 @@ const Navbar: FC = (): ReactElement => {
   ];
 
   return (
-    <div className="w-full bg-white">
+    <div className="w-full bg-white" id="navbar">
       <div className="container mx-auto max-w-6xl">
         <div className="flex flex-row justify-between items-end">
           <img
