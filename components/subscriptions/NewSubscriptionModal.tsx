@@ -22,9 +22,10 @@ interface SubscriptionModalProps {
   isModalOpen: boolean;
   closeModal: () => void;
   subscriberId: number;
+  fetchSubscriber: () => void;
 };
 
-const NewSubscriptionModal: FC<SubscriptionModalProps> = ({ isModalOpen, closeModal, subscriberId }): ReactElement => {
+const NewSubscriptionModal: FC<SubscriptionModalProps> = ({ isModalOpen, closeModal, subscriberId, fetchSubscriber }): ReactElement => {
   const initialState: Subscription = {
     address: '',
     suburb: '',
@@ -66,15 +67,14 @@ const NewSubscriptionModal: FC<SubscriptionModalProps> = ({ isModalOpen, closeMo
     fetch('/api/subscriptions', requestOptions)
       .then(response => response.json())
       .then(data => {
+        fetchSubscriber();
         setIsFetching(false);
 
-        /* Clean the form */
         handleReset(event);
         setShowAlert(true);
+
         setTimeout(() => {
           setShowAlert(false)
-          closeModal();
-          router.reload();
         }, 3000);
       });
   }

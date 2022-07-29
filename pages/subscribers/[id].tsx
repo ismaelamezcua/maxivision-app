@@ -1,12 +1,21 @@
+import {
+  FC,
+  FormEvent,
+  ReactElement,
+  useEffect,
+  useState,
+  useCallback,
+} from 'react';
+
 import { NextPage } from 'next';
 import Head from 'next/head';
-import Link from 'next/link';
 import { useRouter } from 'next/router';
-import { FC, FormEvent, ReactElement, useEffect, useState, VoidFunctionComponent } from 'react';
-import { Subscriber, Subscription } from '@/types';
-import NewSubscriptionModal from '@/components/subscriptions/NewSubscriptionModal';
-import Spinner from '@/components/Spinner';
+
 import { ChevronLeftIcon, PencilAltIcon, PlusIcon, SaveIcon, XIcon } from '@heroicons/react/outline';
+
+import { Subscriber, Subscription } from '@/types';
+import Spinner from '@/components/Spinner';
+import NewSubscriptionModal from '@/components/subscriptions/NewSubscriptionModal';
 import SubscriptionsTable from '@/components/subscriptions/SubscriptionsTable';
 
 interface DetailsInputProps {
@@ -49,16 +58,17 @@ const SubscriberDetails: NextPage = () => {
   const router = useRouter();
   const { id } = router.query;
 
+  let fetchSubscriber = useCallback(async () => {
+    const response = await fetch(`/api/subscribers/${id}`);
+    const subscriber = await response.json();
+    setSubscriber(subscriber);
+    setSubscriptions(subscriber.subscriptions)
+  }, []);
+
   useEffect(() => {
     // Fetch subscriber information
-    fetch(`/api/subscribers/${id}`)
-      .then(response => response.json())
-      .then(subscriber => {
-        setSubscriber(subscriber);
-        setSubscriptions(subscriber.subscriptions)
-        setIsLoading(false);
-      });
-  }, []);
+    fetchSubscriber();
+  }, [fetchSubscriber]);
 
   function handleChange(event: FormEvent) {
     const target = event.target as HTMLInputElement;
@@ -160,7 +170,12 @@ const SubscriberDetails: NextPage = () => {
         </div>
       </div>
 
-      <NewSubscriptionModal isModalOpen={newContractModal} closeModal={() => setNewContratModal(false)} subscriberId={parseInt(id as string)} />
+      <NewSubscriptionModal
+        isModalOpen={newContractModal}
+        closeModal={() => setNewContratModal(false)}
+        subscriberId={parseInt(id as string)}
+        fetchSubscriber={fetchSubscriber}
+      />
 
       <div className="container mx-auto max-w-6xl mt-6 mb-12">
         <div className="flex flex-col space-y-6">
