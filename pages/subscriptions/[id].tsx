@@ -78,6 +78,7 @@ const SubscriptionDetails: NextPage = () => {
     setTransactions(data.transactions as Transaction[]);
     setServiceReports(data.serviceReports as ServiceReport[]);
     setIsFetching(false);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   useEffect(() => {
@@ -97,7 +98,6 @@ const SubscriptionDetails: NextPage = () => {
     })
       .then(response => response.json())
       .then(updatedSubscription => {
-        // TODO: Show alert on updated subscription 
         setSubscription(updatedSubscription);
         setIsDisabled(true);
         setIsFetching(false);
