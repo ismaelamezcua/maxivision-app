@@ -22,9 +22,10 @@ interface TransactionModalProps {
   isModalOpen: boolean;
   closeModal: () => void;
   subscriptionId: number;
+  fetchData: () => void;
 };
 
-const NewTransactionModal: FC<TransactionModalProps> = ({ isModalOpen, closeModal, subscriptionId }): ReactElement => {
+const NewTransactionModal: FC<TransactionModalProps> = ({ isModalOpen, closeModal, subscriptionId, fetchData }): ReactElement => {
   const initialState: Transaction = {
     type: 'Mensualidad',
     price: 0,
@@ -63,14 +64,12 @@ const NewTransactionModal: FC<TransactionModalProps> = ({ isModalOpen, closeModa
       .then(response => response.json())
       .then(data => {
         setIsFetching(false);
-
-        /* Clean the form */
+        fetchData();
         handleReset(event);
         setShowAlert(true);
+
         setTimeout(() => {
           setShowAlert(false)
-          closeModal();
-          Router.reload();
         }, 3000);
       });
   }

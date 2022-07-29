@@ -22,9 +22,10 @@ interface ServiceReportModalProps {
   isModalOpen: boolean;
   closeModal: () => void;
   subscriptionId: number;
+  fetchData: () => void;
 };
 
-const NewServiceReportModal: FC<ServiceReportModalProps> = ({ isModalOpen, closeModal, subscriptionId }): ReactElement => {
+const NewServiceReportModal: FC<ServiceReportModalProps> = ({ isModalOpen, closeModal, subscriptionId, fetchData }): ReactElement => {
   const initialState: ServiceReport = {
     description: '',
     status: 'En progreso',
@@ -62,14 +63,12 @@ const NewServiceReportModal: FC<ServiceReportModalProps> = ({ isModalOpen, close
       .then(response => response.json())
       .then(data => {
         setIsFetching(false);
-
-        /* Clean the form */
+        fetchData();
         handleReset(event);
         setShowAlert(true);
+
         setTimeout(() => {
           setShowAlert(false)
-          closeModal();
-          Router.reload();
         }, 3000);
       });
   }

@@ -1,4 +1,10 @@
-import { FC, FormEvent, useEffect, useState } from 'react';
+import {
+  FC,
+  FormEvent,
+  useEffect,
+  useState,
+  useCallback,
+} from 'react';
 
 import { NextPage } from 'next';
 import Head from 'next/head';
@@ -64,18 +70,19 @@ const SubscriptionDetails: NextPage = () => {
   const [isTransactionsModalOpen, setIsTransactionsModalOpen] = useState<boolean>(false);
   const [isReportsModalOpen, setIsReportsModalOpen] = useState<boolean>(false);
 
-  useEffect(() => {
+  let fetchData = useCallback(async () => {
     setIsFetching(true);
-
-    fetch(`/api/subscriptions/${id}`)
-      .then(response => response.json())
-      .then(data => {
-        setSubscription(data as Subscription);
-        setTransactions(data.transactions as Transaction[]);
-        setServiceReports(data.serviceReports as ServiceReport[]);
-        setIsFetching(false);
-      });
+    const response = await fetch(`/api/subscriptions/${id}`);
+    const data = await response.json();
+    setSubscription(data as Subscription);
+    setTransactions(data.transactions as Transaction[]);
+    setServiceReports(data.serviceReports as ServiceReport[]);
+    setIsFetching(false);
   }, []);
+
+  useEffect(() => {
+    fetchData();
+  }, [fetchData]);
 
   function handleSubmit(event: FormEvent) {
     event.preventDefault();
@@ -290,6 +297,7 @@ const SubscriptionDetails: NextPage = () => {
             isModalOpen={isTransactionsModalOpen}
             closeModal={() => setIsTransactionsModalOpen(false)}
             subscriptionId={Number(id as string)}
+            fetchData={fetchData}
           />
 
           <div className="container mx-auto max-w-6xl mt-6 mb-12 shadow-md">
@@ -323,6 +331,7 @@ const SubscriptionDetails: NextPage = () => {
             isModalOpen={isReportsModalOpen}
             closeModal={() => setIsReportsModalOpen(false)}
             subscriptionId={Number(id as string)}
+            fetchData={fetchData}
           />
 
           <div className="container mx-auto max-w-6xl my-6 shadow-md">
