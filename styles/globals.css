@@ -15,11 +15,24 @@ body {
   .form-field {
     @apply flex flex-col max-w-xl mx-auto space-y-1;
   }
+
   .form-label {
     @apply font-semibold text-slate-800;
   }
 
   .form-input {
     @apply w-full border-slate-400 focus:border-blue-700 px-4 py-3;
+  }
+}
+
+@media print {
+  @page {
+    margin-top: 0;
+    margin-bottom: 0;
+  }
+
+  body {
+    padding-top: 72px;
+    padding-bottom: 72px;
   }
 }
