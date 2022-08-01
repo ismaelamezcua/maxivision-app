@@ -6,6 +6,7 @@ interface Subscriber {
   phone: string;
   rfc: string;
   spouse: string;
+  subscriptions?: Subscription[];
 };
 
 interface Subscription {
@@ -20,6 +21,8 @@ interface Subscription {
   cfe?: string;
   remarks?: string;
   subscriberId?: number;
+  transactions?: Transaction[];
+  serviceReports?: ServiceReport[];
 };
 
 interface Transaction {
